@@ -1,0 +1,105 @@
+CREATE DATABASE IF NOT EXISTS shop_v3
+    DEFAULT CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+USE shop_v3;
+-- 用户表 (users)
+CREATE TABLE `users` (
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '真实用户ID',
+  `username` VARCHAR(50) NOT NULL UNIQUE COMMENT '账户登录名',
+  `password` VARCHAR(255) NOT NULL COMMENT '登录密码',
+  `email` VARCHAR(100) COMMENT '电子邮箱',
+  `phone` VARCHAR(20) COMMENT '联系手机',
+  `nickname` VARCHAR(50) COMMENT '页面展示昵称',
+  `avatar` VARCHAR(255) COMMENT '头像缩略图链接',
+  `status` VARCHAR(20) DEFAULT 'active' COMMENT '账户状态：active/disabled',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+
+-- 产品表 (products)
+CREATE TABLE `products` (
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '产品ID',
+  `name` VARCHAR(100) NOT NULL COMMENT '产品名称',
+  `description` TEXT COMMENT '详细描述/富文本',
+  `images` JSON COMMENT '轮播图列表 (URL数组)',
+  `attributes` JSON COMMENT '商品规格属性（如颜色、内存等）',
+  `original_price` DECIMAL(10, 2) COMMENT '原价',
+  `price` DECIMAL(10, 2) NOT NULL COMMENT '售价',
+  `stock` INT DEFAULT 0 COMMENT '当前库存',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='产品表';
+
+-- 场景表 (scenarios/scenes)
+CREATE TABLE `scenarios` (
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '场景ID',
+  `name` VARCHAR(100) NOT NULL COMMENT '场景名称',
+  `description` TEXT COMMENT '场景详尽描述',
+  `cover_url` VARCHAR(255) COMMENT '场景封面图链接',
+  `config_data` JSON COMMENT '场景配置参数或扩展元数据',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='场景配置表';
+
+-- 收货地址表 (addresses)
+CREATE TABLE `addresses` (
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '地址ID',
+  `user_id` BIGINT NOT NULL COMMENT '关联的用户ID',
+  `receiver_name` VARCHAR(50) NOT NULL COMMENT '收货人姓名',
+  `phone` VARCHAR(20) NOT NULL COMMENT '联系电话',
+  `province` VARCHAR(50) NOT NULL COMMENT '省份',
+  `city` VARCHAR(50) NOT NULL COMMENT '城市',
+  `district` VARCHAR(50) NOT NULL COMMENT '区县',
+  `detail_address` VARCHAR(255) NOT NULL COMMENT '详细地址',
+  `is_default` TINYINT(1) DEFAULT 0 COMMENT '是否为默认地址',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收货地址表';
+
+-- 购物车表 (carts)
+CREATE TABLE `carts` (
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '购物车项ID',
+  `user_id` BIGINT NOT NULL COMMENT '用户ID',
+  `product_id` BIGINT NOT NULL COMMENT '商品ID',
+  `sku_id` BIGINT NOT NULL COMMENT '具体规格(SKU)ID',
+  `quantity` INT NOT NULL DEFAULT 1 COMMENT '购买数量',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='购物车表';
+
+-- 订单表 (orders)
+CREATE TABLE `orders` (
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '订单ID',
+  `order_no` VARCHAR(64) NOT NULL UNIQUE COMMENT '订单编号',
+  `user_id` BIGINT NOT NULL COMMENT '买家ID',
+  `address_id` BIGINT NOT NULL COMMENT '收货地址ID',
+  `total_amount` DECIMAL(10, 2) NOT NULL COMMENT '订单总金额',
+  `status` VARCHAR(20) NOT NULL DEFAULT 'pending' COMMENT '订单状态',
+  `note` VARCHAR(255) COMMENT '订单备注',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
+
+-- 订单明细表 (order_items)
+CREATE TABLE `order_items` (
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '订单明细ID',
+  `order_id` BIGINT NOT NULL COMMENT '所属订单ID',
+  `product_id` BIGINT NOT NULL COMMENT '商品ID',
+  `sku_id` BIGINT NOT NULL COMMENT '规格(SKU)ID',
+  `product_name` VARCHAR(100) NOT NULL COMMENT '商品名称',
+  `price` DECIMAL(10, 2) NOT NULL COMMENT '购买时单价',
+  `quantity` INT NOT NULL COMMENT '购买数量',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单明细表';
+
+-- 支付流水表 (payments)
+CREATE TABLE `payments` (
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '支付ID',
+  `order_id` BIGINT NOT NULL COMMENT '关联的订单ID',
+  `payment_method` VARCHAR(50) NOT NULL COMMENT '支付方式（如alipay, wechat等）',
+  `amount` DECIMAL(10, 2) NOT NULL COMMENT '支付金额',
+  `status` VARCHAR(20) NOT NULL DEFAULT 'unpaid' COMMENT '支付状态',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付记录表';

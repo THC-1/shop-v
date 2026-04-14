@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瑞士雪山浪漫之旅 - 淘宝场景购</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 配置 Tailwind 主题颜色 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        taobao: {
+                            DEFAULT: '#ff5000',
+                            dark: '#e04600',
+                            light: '#ff8a5c',
+                            bg: '#fff2e8'
+                        }
+                    },
+                    maxWidth: {
+                        'main': '1190px'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', sans-serif; background-color: #f4f4f4; }
+        .product-card:hover { border-color: #ff5000; box-shadow: 0 6px 16px rgba(255,80,0,0.15); transform: translateY(-3px); transition: all 0.3s ease;}
+        /* 自定义复选框样式 */
+        .custom-checkbox:checked + div { background-color: #ff5000; border-color: #ff5000; }
+        .custom-checkbox:checked + div svg { display: block; }
+        /* 粘性侧边栏平滑过渡 */
+        .sticky-sidebar { transition: top 0.3s ease; }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- 1. 顶部基础导航 (保持与首页一致) -->
+    <div class="bg-gray-100 border-b border-gray-200 text-xs">
+        <div class="max-w-main mx-auto flex justify-between items-center h-9">
+            <div class="flex items-center space-x-4">
+                <div class="text-gray-500"><span class="mr-2">中国大陆</span><i class="fa-solid fa-angle-down"></i></div>
+                <div class="space-x-2"><a href="#" class="text-taobao hover:underline">亲，请登录</a> <a href="#" class="hover:text-taobao hover:underline">免费注册</a></div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hover:text-taobao hover:underline">我的淘宝 <i class="fa-solid fa-angle-down ml-1 text-gray-400"></i></a>
+                <a href="#" class="hover:text-taobao hover:underline"><i class="fa-solid fa-cart-shopping text-taobao mr-1"></i>购物车 <span class="text-taobao font-bold">3</span></a>
+                <a href="#" class="hover:text-taobao hover:underline">收藏夹 <i class="fa-solid fa-angle-down ml-1 text-gray-400"></i></a>
+                <span class="text-gray-300">|</span>
+                <a href="#" class="hover:text-taobao hover:underline">千牛卖家中心</a>
+                <a href="#" class="hover:text-taobao hover:underline">联系客服</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 简易版头部搜索 -->
+    <div class="bg-white py-5 shadow-sm">
+        <div class="max-w-main mx-auto flex items-center">
+            <!-- Logo区 -->
+            <div class="w-48 text-taobao text-4xl font-bold italic flex items-baseline cursor-pointer">
+                淘宝网
+                <span class="text-sm font-normal not-italic text-white bg-taobao px-1.5 py-0.5 rounded ml-2 shadow-sm">场景购</span>
+            </div>
+            <!-- 面包屑导航 -->
+            <div class="ml-6 text-sm text-gray-500 flex items-center space-x-2">
+                <a href="#" class="hover:text-taobao">首页</a>
+                <i class="fa-solid fa-angle-right text-gray-400 text-xs"></i>
+                <a href="#" class="hover:text-taobao">场景实验室</a>
+                <i class="fa-solid fa-angle-right text-gray-400 text-xs"></i>
+                <span class="text-gray-800 font-bold">瑞士双人滑雪浪漫之旅</span>
+            </div>
+            <!-- 搜索框 -->
+            <div class="flex-1 max-w-lg ml-auto flex">
+                <div class="flex-1 border-2 border-taobao rounded-l-full overflow-hidden flex items-center pl-4 bg-white h-9">
+                    <input type="text" value="瑞士滑雪 情侣" class="w-full h-full outline-none text-sm text-gray-700">
+                </div>
+                <button class="bg-taobao hover:bg-taobao-dark text-white font-bold px-6 h-9 rounded-r-full transition-colors text-sm">搜全站</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 场景英雄海报 (Hero Banner) -->
+    <div class="max-w-main mx-auto mt-4 relative h-[320px] rounded-2xl overflow-hidden shadow-lg group">
+        <img src="https://images.unsplash.com/photo-1551524559-8af4e6624178?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Swiss Skiing">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent flex flex-col justify-center p-12">
+            <div class="inline-block bg-white/20 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full mb-4 border border-white/30 w-max">
+                <i class="fa-solid fa-location-dot mr-1 text-taobao"></i> 目的地：瑞士·阿尔卑斯山脉 | 预计气温：-10℃ ~ 2℃
+            </div>
+            <h1 class="text-white text-5xl font-bold mb-4 tracking-wide shadow-black drop-shadow-md">情侣双人·瑞士滑雪全装备</h1>
+            <p class="text-gray-200 text-base mb-8 max-w-xl shadow-black drop-shadow-sm leading-relaxed">去往世界顶级滑雪天堂，从硬核装备到高颜值情侣穿搭，再到长途旅行必备好物，AI 已经为您和伴侣规划好了完整的购物清单，一站式购齐，无忧出发。</p>
+            <div class="flex space-x-4">
+                <button class="bg-taobao hover:bg-taobao-dark text-white px-8 py-3 rounded-full font-bold text-lg flex items-center shadow-lg shadow-taobao/30 transition-all hover:-translate-y-1">
+                    <i class="fa-solid fa-magic mr-2"></i> 一键加入清单
+                </button>
+                <button class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white border border-white/50 px-8 py-3 rounded-full font-bold text-lg transition-all">
+                    分享给另一半
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 主体内容区 (左侧瀑布流 + 右侧悬浮清单) -->
+    <div class="max-w-main mx-auto mt-6 flex gap-6 items-start pb-16">
+        
+        <!-- 左侧商品展示区 (占主要宽度) -->
+        <div class="flex-1 w-[880px]">
+            
+            <!-- 模块内导航 -->
+            <div class="bg-white rounded-xl shadow-sm mb-6 p-1 sticky top-0 z-40 flex border-b-2 border-transparent">
+                <a href="#section-gear" class="flex-1 text-center py-3 text-taobao font-bold border-b-2 border-taobao text-lg">🏂 硬核滑雪装备</a>
+                <a href="#section-wear" class="flex-1 text-center py-3 text-gray-600 hover:text-taobao font-bold text-lg transition-colors">🧥 情侣保暖穿搭</a>
+                <a href="#section-travel" class="flex-1 text-center py-3 text-gray-600 hover:text-taobao font-bold text-lg transition-colors">✈️ 长途旅行必备</a>
+                <a href="#section-care" class="flex-1 text-center py-3 text-gray-600 hover:text-taobao font-bold text-lg transition-colors">🧴 极寒洗护好物</a>
+            </div>
+
+            <!-- 分区 1: 硬核滑雪装备 -->
+            <div id="section-gear" class="mb-10 pt-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <span class="w-1.5 h-6 bg-taobao rounded-full mr-3"></span>硬核滑雪装备
+                        <span class="text-sm font-normal text-gray-400 ml-4">新手/进阶皆宜，安全最重要</span>
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-4 gap-4">
+                    <!-- 商品 1 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="absolute top-2 left-2 z-10 bg-black/80 text-white text-xs px-2 py-1 rounded">男女同款</div>
+                        <div class="h-[220px] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1565992441121-4367c2967103?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Snowboard">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">Burton伯顿全地形单板滑雪板 男女情侣款 初中级平花</h3>
+                            <div class="text-xs text-taobao bg-taobao-bg inline-block px-1.5 py-0.5 rounded mb-2">场景匹配度 98%</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">3890</span></div>
+                                <div class="text-xs text-gray-400">已售 500+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品 2 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="absolute top-2 left-2 z-10 bg-taobao text-white text-xs px-2 py-1 rounded">防雾防刺眼</div>
+                        <div class="h-[220px] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Goggles">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">Oakley欧克利滑雪护目镜 柱面大视野 瑞士强雪地反光必备</h3>
+                            <div class="text-xs text-taobao bg-taobao-bg inline-block px-1.5 py-0.5 rounded mb-2">雪山强光必备</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">1250</span></div>
+                                <div class="text-xs text-gray-400">已加购 1200+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品 3 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="h-[220px] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1517299321609-52687d1bc55a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Helmet">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">Giro专业滑雪头盔 MIPS防撞系统 轻量化保暖 哑光黑/白</h3>
+                            <div class="text-xs text-gray-500 bg-gray-100 inline-block px-1.5 py-0.5 rounded mb-2">安全防护</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">899</span></div>
+                                <div class="text-xs text-gray-400">月销 800+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品 4 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="h-[220px] bg-gray-50 overflow-hidden flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1488161628813-04466f872507?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Gloves">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">GORE-TEX 防水保暖滑雪手套 触屏设计 零下20度抗寒</h3>
+                            <div class="text-xs text-gray-500 bg-gray-100 inline-block px-1.5 py-0.5 rounded mb-2">高频使用</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">259</span></div>
+                                <div class="text-xs text-gray-400">已售 3万+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分区 2: 情侣保暖穿搭 -->
+            <div id="section-wear" class="mb-10 pt-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <span class="w-1.5 h-6 bg-pink-500 rounded-full mr-3"></span>情侣保暖穿搭
+                        <span class="text-sm font-normal text-gray-400 ml-4">雪地拍照出片神器</span>
+                    </h2>
+                    <a href="#" class="text-sm text-gray-500 hover:text-taobao">查看搭配指南 ></a>
+                </div>
+                
+                <div class="grid grid-cols-4 gap-4">
+                    <!-- 商品 5 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="absolute top-2 left-2 z-10 bg-pink-500 text-white text-xs px-2 py-1 rounded">情侣热卖</div>
+                        <div class="h-[220px] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1559551409-dadc959f76b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Ski Jacket">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">始祖鸟Alpha SV硬壳冲锋衣 防风防水透气 极寒雪地同款</h3>
+                            <div class="text-xs text-pink-500 bg-pink-50 inline-block px-1.5 py-0.5 rounded mb-2">雪地防风 绝绝子</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">8200</span></div>
+                                <div class="text-xs text-gray-400">分期免息</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品 6 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="h-[220px] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1577900232427-18219b9166a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Base Layer">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">迪卡侬美丽诺羊毛保暖内衣套装 男女速干透气 打底神器</h3>
+                            <div class="text-xs text-gray-500 bg-gray-100 inline-block px-1.5 py-0.5 rounded mb-2">排汗速干</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">299</span></div>
+                                <div class="text-xs text-gray-400">月销 10万+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品 7 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="h-[220px] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1542596594-649edbc13630?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Snow Boots">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">Moon Boot 月球靴 经典厚底防滑雪地靴 女士保暖时尚款</h3>
+                            <div class="text-xs text-pink-500 bg-pink-50 inline-block px-1.5 py-0.5 rounded mb-2">拍照巨显腿细</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">1650</span></div>
+                                <div class="text-xs text-gray-400">热推款</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品 8 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="h-[220px] bg-gray-50 overflow-hidden flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1576871337622-98d48d1cf531?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Beanie">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">Carhartt WIP 经典冷帽 男女情侣款 针织毛线帽 多色可选</h3>
+                            <div class="text-xs text-gray-500 bg-gray-100 inline-block px-1.5 py-0.5 rounded mb-2">情侣出街必备</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">199</span></div>
+                                <div class="text-xs text-gray-400">已售 8000+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分区 3: 长途旅行必备 -->
+            <div id="section-travel" class="mb-10 pt-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <span class="w-1.5 h-6 bg-blue-500 rounded-full mr-3"></span>长途旅行必备
+                        <span class="text-sm font-normal text-gray-400 ml-4">解决路途烦恼，记录美好瞬间</span>
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-4 gap-4">
+                    <!-- 商品 9 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="absolute top-2 left-2 z-10 bg-blue-500 text-white text-xs px-2 py-1 rounded">Vlog神器</div>
+                        <div class="h-[220px] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Camera">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">GoPro HERO 12 Black 运动相机 防抖防水 记录滑雪瞬间</h3>
+                            <div class="text-xs text-blue-500 bg-blue-50 inline-block px-1.5 py-0.5 rounded mb-2">耐寒电池</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">3198</span></div>
+                                <div class="text-xs text-gray-400">官方正品</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品 10 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="h-[220px] bg-gray-50 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1565026057447-bc90a3dce3eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Luggage">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">新秀丽 28寸大容量托运行李箱 铝框耐摔 轻松装下冬装</h3>
+                            <div class="text-xs text-gray-500 bg-gray-100 inline-block px-1.5 py-0.5 rounded mb-2">两人够装</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">1880</span></div>
+                                <div class="text-xs text-gray-400">顺丰包邮</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品 11 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="h-[220px] bg-gray-50 overflow-hidden p-8 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1620054813589-913210cc14ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-500" alt="Adapter">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">公牛 欧洲/瑞士标准转换插头 全球通旅行多功能转换器</h3>
+                            <div class="text-xs text-taobao bg-taobao-bg inline-block px-1.5 py-0.5 rounded mb-2">瑞士必带 易忘</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">45</span></div>
+                                <div class="text-xs text-gray-400">已售 10万+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品 12 -->
+                    <div class="product-card bg-white border border-transparent rounded-xl overflow-hidden cursor-pointer relative group">
+                        <div class="h-[220px] bg-gray-50 overflow-hidden p-6 flex items-center justify-center">
+                            <!-- 用保温杯替代暖宝宝图片示意 -->
+                            <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Thermos">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm text-gray-800 line-clamp-2 h-10 group-hover:text-taobao mb-1">膳魔师高真空保温杯 750ml大容量 雪地一口热水的幸福</h3>
+                            <div class="text-xs text-gray-500 bg-gray-100 inline-block px-1.5 py-0.5 rounded mb-2">24h保温</div>
+                            <div class="flex items-end justify-between">
+                                <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">219</span></div>
+                                <div class="text-xs text-gray-400">月销 1万+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 右侧悬浮区域：智能场景购物清单 -->
+        <div class="w-[286px]">
+            <div class="bg-white rounded-xl shadow-lg border border-orange-100 overflow-hidden sticky-sidebar sticky top-4" id="smartChecklist">
+                <!-- 清单头部 -->
+                <div class="bg-gradient-to-r from-orange-400 to-taobao text-white p-4">
+                    <h3 class="font-bold text-lg flex items-center">
+                        <i class="fa-solid fa-list-check mr-2"></i> 瑞士滑雪专属清单
+                    </h3>
+                    <p class="text-xs text-orange-100 mt-1">系统已根据您的场景生成，选中直接加购</p>
+                    
+                    <!-- 进度条 -->
+                    <div class="mt-3">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span>准备进度</span>
+                            <span id="progress-text" class="font-bold">3/12</span>
+                        </div>
+                        <div class="w-full bg-black/20 rounded-full h-1.5">
+                            <div class="bg-white h-1.5 rounded-full transition-all duration-500" style="width: 25%" id="progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 清单内容区 -->
+                <div class="p-2 h-[450px] overflow-y-auto custom-scrollbar">
+                    
+                    <!-- 分类: 装备 -->
+                    <div class="mb-2">
+                        <div class="text-xs font-bold text-gray-400 px-2 py-2 flex items-center">
+                            <div class="flex-1 border-t border-gray-200"></div>
+                            <span class="px-2">核心装备</span>
+                            <div class="flex-1 border-t border-gray-200"></div>
+                        </div>
+                        
+                        <label class="flex items-center p-2 hover:bg-orange-50 rounded cursor-pointer group transition-colors">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="custom-checkbox opacity-0 absolute h-4 w-4 z-10 cursor-pointer" checked onclick="updateProgress()">
+                                <div class="bg-white border-2 border-gray-300 rounded w-4 h-4 flex flex-shrink-0 justify-center items-center mr-3 group-hover:border-taobao transition-colors">
+                                    <svg class="hidden w-3 h-3 text-white pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-sm text-gray-700 group-hover:text-taobao">滑雪板 (情侣款)</div>
+                            <div class="text-xs text-taobao border border-taobao px-1 rounded bg-white">已加购</div>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-orange-50 rounded cursor-pointer group transition-colors">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="custom-checkbox opacity-0 absolute h-4 w-4 z-10 cursor-pointer" onclick="updateProgress()">
+                                <div class="bg-white border-2 border-gray-300 rounded w-4 h-4 flex flex-shrink-0 justify-center items-center mr-3 group-hover:border-taobao transition-colors">
+                                    <svg class="hidden w-3 h-3 text-white pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-sm text-gray-700 group-hover:text-taobao">滑雪护目镜</div>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-orange-50 rounded cursor-pointer group transition-colors">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="custom-checkbox opacity-0 absolute h-4 w-4 z-10 cursor-pointer" onclick="updateProgress()">
+                                <div class="bg-white border-2 border-gray-300 rounded w-4 h-4 flex flex-shrink-0 justify-center items-center mr-3 group-hover:border-taobao transition-colors">
+                                    <svg class="hidden w-3 h-3 text-white pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-sm text-gray-700 group-hover:text-taobao">滑雪头盔 x2</div>
+                        </label>
+                    </div>
+
+                    <!-- 分类: 穿搭 -->
+                    <div class="mb-2">
+                        <div class="text-xs font-bold text-gray-400 px-2 py-2 flex items-center">
+                            <div class="flex-1 border-t border-gray-200"></div>
+                            <span class="px-2">保暖穿搭</span>
+                            <div class="flex-1 border-t border-gray-200"></div>
+                        </div>
+                        
+                        <label class="flex items-center p-2 hover:bg-orange-50 rounded cursor-pointer group transition-colors">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="custom-checkbox opacity-0 absolute h-4 w-4 z-10 cursor-pointer" checked onclick="updateProgress()">
+                                <div class="bg-white border-2 border-gray-300 rounded w-4 h-4 flex flex-shrink-0 justify-center items-center mr-3 group-hover:border-taobao transition-colors">
+                                    <svg class="hidden w-3 h-3 text-white pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-sm text-gray-700 group-hover:text-taobao">防水冲锋衣套装</div>
+                             <div class="text-xs text-taobao border border-taobao px-1 rounded bg-white">已购买</div>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-orange-50 rounded cursor-pointer group transition-colors">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="custom-checkbox opacity-0 absolute h-4 w-4 z-10 cursor-pointer" onclick="updateProgress()">
+                                <div class="bg-white border-2 border-gray-300 rounded w-4 h-4 flex flex-shrink-0 justify-center items-center mr-3 group-hover:border-taobao transition-colors">
+                                    <svg class="hidden w-3 h-3 text-white pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-sm text-gray-700 group-hover:text-taobao">美丽诺羊毛打底</div>
+                        </label>
+                         <label class="flex items-center p-2 hover:bg-orange-50 rounded cursor-pointer group transition-colors">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="custom-checkbox opacity-0 absolute h-4 w-4 z-10 cursor-pointer" onclick="updateProgress()">
+                                <div class="bg-white border-2 border-gray-300 rounded w-4 h-4 flex flex-shrink-0 justify-center items-center mr-3 group-hover:border-taobao transition-colors">
+                                    <svg class="hidden w-3 h-3 text-white pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-sm text-gray-700 group-hover:text-taobao">防水保暖手套</div>
+                        </label>
+                    </div>
+
+                    <!-- 分类: 旅行/配件 -->
+                    <div class="mb-2">
+                        <div class="text-xs font-bold text-gray-400 px-2 py-2 flex items-center">
+                            <div class="flex-1 border-t border-gray-200"></div>
+                            <span class="px-2">差旅配件</span>
+                            <div class="flex-1 border-t border-gray-200"></div>
+                        </div>
+                        
+                        <label class="flex items-center p-2 hover:bg-orange-50 rounded cursor-pointer group transition-colors">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="custom-checkbox opacity-0 absolute h-4 w-4 z-10 cursor-pointer" onclick="updateProgress()">
+                                <div class="bg-white border-2 border-gray-300 rounded w-4 h-4 flex flex-shrink-0 justify-center items-center mr-3 group-hover:border-taobao transition-colors">
+                                    <svg class="hidden w-3 h-3 text-white pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-sm text-gray-700 group-hover:text-taobao text-red-500 font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>瑞士标准转换插头</div>
+                        </label>
+                         <label class="flex items-center p-2 hover:bg-orange-50 rounded cursor-pointer group transition-colors">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="custom-checkbox opacity-0 absolute h-4 w-4 z-10 cursor-pointer" checked onclick="updateProgress()">
+                                <div class="bg-white border-2 border-gray-300 rounded w-4 h-4 flex flex-shrink-0 justify-center items-center mr-3 group-hover:border-taobao transition-colors">
+                                    <svg class="hidden w-3 h-3 text-white pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-sm text-gray-700 group-hover:text-taobao">28寸托运行李箱</div>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-orange-50 rounded cursor-pointer group transition-colors">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="custom-checkbox opacity-0 absolute h-4 w-4 z-10 cursor-pointer" onclick="updateProgress()">
+                                <div class="bg-white border-2 border-gray-300 rounded w-4 h-4 flex flex-shrink-0 justify-center items-center mr-3 group-hover:border-taobao transition-colors">
+                                    <svg class="hidden w-3 h-3 text-white pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-sm text-gray-700 group-hover:text-taobao">运动相机/Vlog装备</div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 底部加购按钮 -->
+                <div class="p-4 border-t border-gray-100 bg-gray-50 flex flex-col gap-2">
+                    <button class="w-full bg-taobao hover:bg-taobao-dark text-white font-bold py-2.5 rounded-full text-sm transition-colors shadow-md">
+                        一键加购选中项 (<span id="selected-count">0</span>)
+                    </button>
+                    <button class="w-full bg-white border border-gray-300 hover:text-taobao hover:border-taobao text-gray-600 font-bold py-2 rounded-full text-sm transition-colors">
+                        邀请伴侣一起挑
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. 底部保障条 (简化版) -->
+    <div class="bg-white border-t border-gray-200 py-8">
+        <div class="max-w-main mx-auto text-center text-xs text-gray-500 space-y-3">
+            <p class="space-x-4">
+                <a href="#" class="hover:text-gray-800">关于淘宝</a>
+                <a href="#" class="hover:text-gray-800">合作伙伴</a>
+                <a href="#" class="hover:text-gray-800">营销中心</a>
+                <a href="#" class="hover:text-gray-800">联系客服</a>
+            </p>
+            <p>© 2026 淘宝网 Demo - 场景化导购体验</p>
+        </div>
+    </div>
+
+    <!-- 交互脚本：处理清单进度条和加购数量 -->
+    <script>
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.custom-checkbox');
+            const total = checkboxes.length;
+            let checked = 0;
+            
+            checkboxes.forEach(cb => {
+                if(cb.checked) checked++;
+            });
+
+            // 更新文本
+            document.getElementById('progress-text').innerText = `${checked}/${total}`;
+            document.getElementById('selected-count').innerText = checked;
+            
+            // 更新进度条宽度
+            const percentage = (checked / total) * 100;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        // 初始化进度
+        updateProgress();
+    </script>
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>淘宝网 - 淘！我喜欢</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 配置 Tailwind 主题颜色以匹配淘宝橙 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        taobao: {
+                            DEFAULT: '#ff5000',
+                            dark: '#e04600',
+                            light: '#ff8a5c'
+                        }
+                    },
+                    maxWidth: {
+                        'main': '1190px'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 自定义一些滚动条和分类菜单的悬浮效果 */
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'Heiti SC', sans-serif; background-color: #f4f4f4; }
+        .category-item:hover .sub-menu { display: block; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 轮播图过渡效果 */
+        .carousel-track { transition: transform 0.5s ease-in-out; }
+        
+        /* 商品卡片悬浮边框变色 */
+        .product-card:hover { border-color: #ff5000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); transition: all 0.2s ease;}
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- 顶部导航条 -->
+    <div class="bg-gray-100 border-b border-gray-200 text-xs">
+        <div class="max-w-main mx-auto flex justify-between items-center h-9">
+            <!-- 左侧 -->
+            <div class="flex items-center space-x-4">
+                <div class="text-gray-500">
+                    <span class="mr-2">中国大陆</span>
+                    <i class="fa-solid fa-angle-down"></i>
+                </div>
+                <div class="space-x-2">
+                    <a href="#" class="text-taobao hover:underline">亲，请登录</a>
+                    <a href="#" class="hover:text-taobao hover:underline">免费注册</a>
+                </div>
+                <a href="#" class="hover:text-taobao hover:underline">手机逛淘宝</a>
+            </div>
+            <!-- 右侧 -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hover:text-taobao hover:underline">我的淘宝 <i class="fa-solid fa-angle-down ml-1 text-gray-400"></i></a>
+                <a href="#" class="hover:text-taobao hover:underline"><i class="fa-solid fa-cart-shopping text-taobao mr-1"></i>购物车</a>
+                <a href="#" class="hover:text-taobao hover:underline">收藏夹 <i class="fa-solid fa-angle-down ml-1 text-gray-400"></i></a>
+                <span class="text-gray-300">|</span>
+                <a href="#" class="hover:text-taobao hover:underline">千牛卖家中心</a>
+                <a href="#" class="hover:text-taobao hover:underline">联系客服</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 头部搜索区域 -->
+    <div class="bg-white py-6">
+        <div class="max-w-main mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <div class="w-48 text-taobao text-5xl font-bold italic flex items-center cursor-pointer">
+                淘宝网
+                <span class="text-xs font-normal not-italic text-gray-500 ml-2 mt-4 bg-gray-100 px-2 rounded-full">电商DEMO</span>
+            </div>
+
+            <!-- 搜索框 -->
+            <div class="flex-1 max-w-3xl ml-10">
+                <div class="flex text-sm mb-1 ml-4 space-x-4">
+                    <span class="text-white bg-taobao px-3 py-0.5 rounded-t-md font-bold cursor-pointer">宝贝</span>
+                    <span class="text-gray-600 hover:text-taobao cursor-pointer py-0.5">天猫</span>
+                    <span class="text-gray-600 hover:text-taobao cursor-pointer py-0.5">店铺</span>
+                </div>
+                <div class="flex">
+                    <div class="flex-1 border-2 border-taobao rounded-l-full overflow-hidden flex items-center pl-4 bg-white">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                        <input type="text" placeholder="春季新款连衣裙" class="w-full py-2.5 px-3 outline-none text-sm text-gray-700">
+                        <i class="fa-solid fa-camera text-gray-400 pr-4 text-lg cursor-pointer hover:text-taobao"></i>
+                    </div>
+                    <button class="bg-taobao hover:bg-taobao-dark text-white font-bold text-lg px-8 py-2.5 rounded-r-full w-32 transition-colors">
+                        搜索
+                    </button>
+                </div>
+                <!-- 热门搜索 -->
+                <div class="text-xs text-gray-400 mt-2 ml-4 flex space-x-3">
+                    <a href="#" class="hover:text-taobao text-taobao">新款手机</a>
+                    <a href="#" class="hover:text-taobao">春季女装</a>
+                    <a href="#" class="hover:text-taobao text-taobao">机械键盘</a>
+                    <a href="#" class="hover:text-taobao">男士卫衣</a>
+                    <a href="#" class="hover:text-taobao">大屏电视</a>
+                    <a href="#" class="hover:text-taobao">智能手表</a>
+                </div>
+            </div>
+
+            <!-- 二维码位置 -->
+            <div class="w-24 h-28 border border-gray-200 bg-white ml-8 flex flex-col items-center justify-center text-xs text-taobao cursor-pointer hover:border-taobao transition-colors">
+                <i class="fa-solid fa-qrcode text-4xl mb-1 text-gray-400"></i>
+                <span>手机淘宝</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主导航 -->
+    <div class="max-w-main mx-auto mt-3">
+        <div class="flex text-base font-bold text-gray-800 space-x-8 px-4 pb-2 border-b-2 border-taobao">
+            <a href="#" class="text-taobao">主题市场</a>
+            <a href="#" class="hover:text-taobao">天猫</a>
+            <a href="#" class="hover:text-taobao">聚划算</a>
+            <a href="#" class="hover:text-taobao">天猫超市</a>
+            <span class="text-gray-300">|</span>
+            <a href="#" class="hover:text-taobao">司法拍卖</a>
+            <a href="#" class="hover:text-taobao">飞猪旅行</a>
+            <a href="#" class="hover:text-taobao">天天特卖</a>
+        </div>
+    </div>
+
+    <!-- 首屏内容 (分类菜单 + 轮播 + 用户面板) -->
+    <div class="max-w-main mx-auto mt-2 flex h-[500px] gap-3">
+        
+        <!-- 左侧分类菜单 -->
+        <div class="w-[240px] bg-white border border-gray-200 py-3 flex flex-col justify-between relative relative z-20 shadow-sm">
+            <!-- 分类项 -->
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">女装</a> / <a href="#">男装</a> / <a href="#">内衣</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+                <!-- 悬浮子菜单 (仅示例第一个) -->
+                <div class="sub-menu hidden absolute left-full top-0 w-[700px] h-full bg-white border border-gray-200 shadow-lg p-6 z-30">
+                    <h3 class="font-bold text-lg mb-4 text-gray-800">女装男装</h3>
+                    <div class="grid grid-cols-4 gap-4 text-sm">
+                        <a href="#" class="text-gray-600 hover:text-taobao">当季热卖</a>
+                        <a href="#" class="text-gray-600 hover:text-taobao">连衣裙</a>
+                        <a href="#" class="text-gray-600 hover:text-taobao">T恤</a>
+                        <a href="#" class="text-gray-600 hover:text-taobao">衬衫</a>
+                        <a href="#" class="text-gray-600 hover:text-taobao">牛仔裤</a>
+                        <a href="#" class="text-gray-600 hover:text-taobao">休闲裤</a>
+                        <a href="#" class="text-gray-600 hover:text-taobao">外套</a>
+                        <a href="#" class="text-gray-600 hover:text-taobao">西装</a>
+                    </div>
+                </div>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">鞋靴</a> / <a href="#">箱包</a> / <a href="#">配件</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">童装玩具</a> / <a href="#">孕产</a> / <a href="#">用品</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">家电</a> / <a href="#">数码</a> / <a href="#">手机</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">美妆</a> / <a href="#">洗护</a> / <a href="#">保健品</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">珠宝</a> / <a href="#">眼镜</a> / <a href="#">手表</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">运动</a> / <a href="#">户外</a> / <a href="#">乐器</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">游戏</a> / <a href="#">动漫</a> / <a href="#">影视</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">美食</a> / <a href="#">生鲜</a> / <a href="#">零食</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">鲜花</a> / <a href="#">宠物</a> / <a href="#">农资</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">面部护理</a> / <a href="#">香水</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+            <div class="category-item px-5 py-2 hover:bg-red-50 hover:text-taobao cursor-pointer text-sm flex items-center justify-between">
+                <div><a href="#" class="font-bold">家具</a> / <a href="#">家饰</a> / <a href="#">家纺</a></div>
+                <i class="fa-solid fa-angle-right text-xs text-gray-400"></i>
+            </div>
+        </div>
+
+        <!-- 中间部分 (轮播图 + 活动位) -->
+        <div class="flex-1 flex flex-col gap-3 min-w-0">
+            <!-- 大轮播图 -->
+            <div class="h-[280px] w-full bg-gray-200 relative overflow-hidden group cursor-pointer z-10">
+                <div class="carousel-track flex h-full" id="mainCarousel">
+                    <div class="min-w-full h-full relative">
+                        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Banner 1">
+                        <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent flex items-center p-12">
+                            <h2 class="text-white text-4xl font-bold">秋季新品大赏</h2>
+                        </div>
+                    </div>
+                    <div class="min-w-full h-full relative">
+                        <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Banner 2">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/60 to-transparent flex items-center p-12">
+                            <h2 class="text-white text-4xl font-bold">数码潮品节 满减优惠</h2>
+                        </div>
+                    </div>
+                    <div class="min-w-full h-full relative">
+                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Banner 3">
+                        <div class="absolute inset-0 bg-gradient-to-r from-orange-900/60 to-transparent flex items-center p-12">
+                            <h2 class="text-white text-4xl font-bold">品质生活 甄选好物</h2>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 轮播控件 -->
+                <button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white w-8 h-12 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><i class="fa-solid fa-angle-left"></i></button>
+                <button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white w-8 h-12 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><i class="fa-solid fa-angle-right"></i></button>
+                
+                <div class="absolute bottom-3 left-1/2 -translate-y-1/2 flex space-x-2 bg-white/30 px-3 py-1 rounded-full backdrop-blur-sm" id="carouselDots">
+                    <div class="w-2.5 h-2.5 rounded-full bg-taobao cursor-pointer"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-white cursor-pointer"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-white cursor-pointer"></div>
+                </div>
+            </div>
+
+            <!-- 下方推荐位 -->
+            <div class="flex-1 flex gap-3">
+                <div class="flex-1 bg-white cursor-pointer group overflow-hidden relative shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Promo">
+                    <div class="absolute top-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">运动潮鞋</div>
+                </div>
+                <div class="flex-1 bg-white cursor-pointer group overflow-hidden relative shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Promo">
+                    <div class="absolute top-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">智能手表</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧用户信息与服务 -->
+        <div class="w-[290px] flex flex-col gap-3">
+            <!-- 用户面板 -->
+            <div class="bg-white p-4 flex flex-col items-center shadow-sm relative h-[160px] overflow-hidden">
+                <div class="w-full h-16 bg-orange-100 absolute top-0 left-0"></div>
+                <div class="w-14 h-14 rounded-full bg-gray-200 border-2 border-white shadow-md z-10 overflow-hidden mt-2">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar">
+                </div>
+                <p class="mt-2 text-sm z-10">Hi! 你好</p>
+                <div class="flex space-x-2 mt-3 w-full justify-center z-10">
+                    <button class="bg-taobao text-white text-xs px-4 py-1.5 rounded-full font-bold hover:bg-taobao-dark">登录</button>
+                    <button class="bg-orange-100 text-taobao text-xs px-4 py-1.5 rounded-full font-bold hover:bg-orange-200">注册</button>
+                    <button class="bg-orange-100 text-taobao text-xs px-4 py-1.5 rounded-full font-bold hover:bg-orange-200">开店</button>
+                </div>
+            </div>
+
+            <!-- 淘宝头条 -->
+            <div class="bg-white p-4 shadow-sm flex-1">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-sm text-gray-800">淘宝头条</h3>
+                    <a href="#" class="text-xs text-gray-400 hover:text-taobao">更多 ></a>
+                </div>
+                <ul class="space-y-2 text-xs">
+                    <li class="flex items-center hover:text-taobao cursor-pointer"><span class="bg-red-100 text-red-500 px-1 rounded mr-2">评测</span> 苹果15深度体验报告，到底值不值得买？</li>
+                    <li class="flex items-center hover:text-taobao cursor-pointer"><span class="bg-blue-100 text-blue-500 px-1 rounded mr-2">穿搭</span> 初秋微凉，这3种风衣搭配让你气质出众</li>
+                    <li class="flex items-center hover:text-taobao cursor-pointer"><span class="bg-orange-100 text-orange-500 px-1 rounded mr-2">热点</span> 2026年新款扫地机器人大比拼</li>
+                </ul>
+            </div>
+
+            <!-- 便捷服务图标 -->
+            <div class="bg-white p-2 shadow-sm grid grid-cols-4 gap-y-4 gap-x-2 text-center text-xs pb-4">
+                <a href="#" class="flex flex-col items-center hover:text-taobao group">
+                    <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center mb-1 group-hover:bg-taobao group-hover:text-white transition-colors"><i class="fa-solid fa-mobile-screen"></i></div>
+                    充话费
+                </a>
+                <a href="#" class="flex flex-col items-center hover:text-taobao group">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mb-1 group-hover:bg-blue-500 group-hover:text-white transition-colors"><i class="fa-solid fa-plane"></i></div>
+                    旅行
+                </a>
+                <a href="#" class="flex flex-col items-center hover:text-taobao group">
+                    <div class="w-8 h-8 rounded-full bg-green-100 text-green-500 flex items-center justify-center mb-1 group-hover:bg-green-500 group-hover:text-white transition-colors"><i class="fa-solid fa-car"></i></div>
+                    车险
+                </a>
+                <a href="#" class="flex flex-col items-center hover:text-taobao group">
+                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mb-1 group-hover:bg-purple-500 group-hover:text-white transition-colors"><i class="fa-solid fa-gamepad"></i></div>
+                    游戏
+                </a>
+                <a href="#" class="flex flex-col items-center hover:text-taobao group">
+                    <div class="w-8 h-8 rounded-full bg-pink-100 text-pink-500 flex items-center justify-center mb-1 group-hover:bg-pink-500 group-hover:text-white transition-colors"><i class="fa-solid fa-ticket"></i></div>
+                    彩票
+                </a>
+                <a href="#" class="flex flex-col items-center hover:text-taobao group">
+                    <div class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center mb-1 group-hover:bg-yellow-500 group-hover:text-white transition-colors"><i class="fa-solid fa-film"></i></div>
+                    电影
+                </a>
+                <a href="#" class="flex flex-col items-center hover:text-taobao group">
+                    <div class="w-8 h-8 rounded-full bg-cyan-100 text-cyan-500 flex items-center justify-center mb-1 group-hover:bg-cyan-500 group-hover:text-white transition-colors"><i class="fa-solid fa-utensils"></i></div>
+                    外卖
+                </a>
+                <a href="#" class="flex flex-col items-center hover:text-taobao group">
+                    <div class="w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center mb-1 group-hover:bg-red-500 group-hover:text-white transition-colors"><i class="fa-solid fa-money-bill-wave"></i></div>
+                    理财
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 猜你喜欢 (商品瀑布流) -->
+    <div class="max-w-main mx-auto mt-8 mb-16">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+            <i class="fa-solid fa-heart text-taobao mr-2"></i> 猜你喜欢
+            <span class="text-sm font-normal text-gray-400 ml-4 border-l border-gray-300 pl-4">根据你的浏览历史推荐</span>
+        </h2>
+        
+        <div class="grid grid-cols-5 gap-4">
+            <!-- 商品卡片 1 -->
+            <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100 relative">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Headphones">
+                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent p-2 text-white text-xs">顺丰包邮</div>
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">索尼旗舰级降噪头戴式无线蓝牙耳机 黑色款 沉浸式音质体验</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">1999</span><span class="text-xs">.00</span></div>
+                        <div class="text-xs text-gray-400">1000+人付款</div>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-400 border border-red-200 text-red-500 px-1 inline-block rounded">满1000减100</div>
+                </div>
+            </div>
+
+            <!-- 商品卡片 2 -->
+            <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="T-shirt">
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">夏季纯棉短袖T恤男士宽松潮流百搭半袖打底衫 基础款白色</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">59</span><span class="text-xs">.90</span></div>
+                        <div class="text-xs text-gray-400">5万+人付款</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品卡片 3 -->
+            <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Watch">
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">Apple Watch Series 9 智能手表 铝金属表壳 运动型表带</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">2999</span><span class="text-xs">.00</span></div>
+                        <div class="text-xs text-gray-400">2000+人付款</div>
+                    </div>
+                    <div class="mt-2 flex space-x-1">
+                        <span class="text-[10px] bg-taobao text-white px-1 rounded">官方旗舰店</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品卡片 4 -->
+            <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100 relative">
+                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Cosmetics">
+                    <div class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">热卖推荐</div>
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">雅诗兰黛小棕瓶精华液50ml 修护抗初老紧致肌肤</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">950</span><span class="text-xs">.00</span></div>
+                        <div class="text-xs text-gray-400">1万+人付款</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品卡片 5 -->
+            <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="T-shirt">
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">黑色基础款圆领短袖T恤 纯棉吸汗透气 舒适男装</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">39</span><span class="text-xs">.00</span></div>
+                        <div class="text-xs text-gray-400">3000+人付款</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 更多商品卡片可以继续添加 -->
+            <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1504274066651-8d31a536b11a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Airpods">
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">Apple AirPods Pro 2代 无线降噪蓝牙耳机</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">1899</span><span class="text-xs">.00</span></div>
+                        <div class="text-xs text-gray-400">5000+人付款</div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Makeup">
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">MAC魅可子弹头口红 显白人气色号 Chili小辣椒</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">190</span><span class="text-xs">.00</span></div>
+                        <div class="text-xs text-gray-400">2万+人付款</div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Camera">
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">复古拍立得相机 礼盒套装 含相纸 少女心生日礼物</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">699</span><span class="text-xs">.00</span></div>
+                        <div class="text-xs text-gray-400">800+人付款</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1581553680321-4cb336d90a98?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Bag">
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">新款小众设计高级感单肩包 腋下包通勤百搭女包</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">129</span><span class="text-xs">.00</span></div>
+                        <div class="text-xs text-gray-400">4000+人付款</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border border-transparent rounded-lg overflow-hidden cursor-pointer">
+                <div class="h-[230px] bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1505739998589-00fc191ce01d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" alt="Gaming Mouse">
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm text-gray-800 line-clamp-2 h-10 hover:text-taobao mb-2">罗技G502无线游戏鼠标 电竞发烧级 人体工学设计</h3>
+                    <div class="flex items-end justify-between">
+                        <div class="text-taobao font-bold"><span class="text-xs">¥</span><span class="text-xl">499</span><span class="text-xs">.00</span></div>
+                        <div class="text-xs text-gray-400">1500+人付款</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 底部区域 -->
+    <div class="bg-white border-t border-gray-200 mt-10 pt-8 pb-12">
+        <div class="max-w-main mx-auto">
+            <div class="flex justify-between border-b border-gray-200 pb-8 mb-8">
+                <div class="flex space-x-16 text-sm">
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3 text-base">消费者保障</h4>
+                        <ul class="space-y-2 text-gray-500">
+                            <li><a href="#" class="hover:text-taobao">保障范围</a></li>
+                            <li><a href="#" class="hover:text-taobao">退货退款流程</a></li>
+                            <li><a href="#" class="hover:text-taobao">服务中心</a></li>
+                            <li><a href="#" class="hover:text-taobao">更多特色服务</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3 text-base">新手上路</h4>
+                        <ul class="space-y-2 text-gray-500">
+                            <li><a href="#" class="hover:text-taobao">新手专区</a></li>
+                            <li><a href="#" class="hover:text-taobao">消费警示</a></li>
+                            <li><a href="#" class="hover:text-taobao">交易安全</a></li>
+                            <li><a href="#" class="hover:text-taobao">24小时在线帮助</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3 text-base">付款方式</h4>
+                        <ul class="space-y-2 text-gray-500">
+                            <li><a href="#" class="hover:text-taobao">快捷支付</a></li>
+                            <li><a href="#" class="hover:text-taobao">信用卡</a></li>
+                            <li><a href="#" class="hover:text-taobao">余额宝</a></li>
+                            <li><a href="#" class="hover:text-taobao">蚂蚁花呗</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3 text-base">淘宝特色</h4>
+                        <ul class="space-y-2 text-gray-500">
+                            <li><a href="#" class="hover:text-taobao">手机淘宝</a></li>
+                            <li><a href="#" class="hover:text-taobao">旺旺/旺信</a></li>
+                            <li><a href="#" class="hover:text-taobao">大众评审</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-xs text-gray-500 space-y-3">
+                <p class="space-x-4">
+                    <a href="#" class="hover:text-gray-800">关于淘宝</a>
+                    <a href="#" class="hover:text-gray-800">合作伙伴</a>
+                    <a href="#" class="hover:text-gray-800">营销中心</a>
+                    <a href="#" class="hover:text-gray-800">廉正举报</a>
+                    <a href="#" class="hover:text-gray-800">联系客服</a>
+                    <a href="#" class="hover:text-gray-800">开放平台</a>
+                    <a href="#" class="hover:text-gray-800">诚征英才</a>
+                </p>
+                <p>
+                    <span>© 2026 淘宝网 Demo - 仅供学习参考使用</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 简单的轮播图 JavaScript -->
+    <script>
+        const track = document.getElementById('mainCarousel');
+        const dots = document.getElementById('carouselDots').children;
+        let currentIndex = 0;
+        const totalSlides = 3;
+
+        function updateCarousel() {
+            // 更新图片位置
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // 更新底部圆点颜色
+            for(let i = 0; i < dots.length; i++) {
+                if(i === currentIndex) {
+                    dots[i].classList.replace('bg-white', 'bg-taobao');
+                } else {
+                    dots[i].classList.replace('bg-taobao', 'bg-white');
+                }
+            }
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        // 添加圆点点击事件
+        for(let i = 0; i < dots.length; i++) {
+            dots[i].addEventListener('click', () => {
+                currentIndex = i;
+                updateCarousel();
+            });
+        }
+
+        // 自动轮播
+        let interval = setInterval(nextSlide, 3500);
+
+        // 鼠标悬停时暂停轮播
+        track.parentElement.addEventListener('mouseenter', () => clearInterval(interval));
+        track.parentElement.addEventListener('mouseleave', () => {
+            interval = setInterval(nextSlide, 3500);
+        });
+    </script>
+</body>
+</html>

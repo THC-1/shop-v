@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-taobao: #ff5000;
+  --color-taobao-dark: #e04600;
+  --color-taobao-light: #ff8a5c;
+  --color-taobao-bg: #fff2e8;
+  --max-width-main: 1190px;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', sans-serif;
+  background-color: #f4f4f4;
+}
+
+.product-card:hover {
+  border-color: #ff5000;
+  box-shadow: 0 4px 12px rgba(255, 80, 0, 0.15);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

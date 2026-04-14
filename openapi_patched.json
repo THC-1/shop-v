@@ -1,0 +1,5146 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "默认模块",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "购物车管理"
+    },
+    {
+      "name": "订单管理"
+    },
+    {
+      "name": "支付管理"
+    },
+    {
+      "name": "场景模块"
+    },
+    {
+      "name": "用户模块"
+    },
+    {
+      "name": "产品模块"
+    }
+  ],
+  "paths": {
+    "/api/v1/carts": {
+      "get": {
+        "summary": "获取购物车商品列表",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口（后端服务）\n【前置条件】需要用户登录\n【鉴权】Bearer Token",
+        "operationId": "获取购物车商品列表",
+        "tags": [
+          "购物车管理"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT 令牌，格式：Bearer {token}",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartsListResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": [
+                    {
+                      "id": 1,
+                      "productId": 1001,
+                      "productName": "iPhone 15 Pro",
+                      "skuId": 2001,
+                      "productImage": "https://example.com/images/iphone15pro.jpg",
+                      "skuName": "深空黑色 256GB",
+                      "price": 8999,
+                      "quantity": 1,
+                      "subtotal": 8999
+                    },
+                    {
+                      "id": 2,
+                      "productId": 1002,
+                      "productImage": "https://example.com/images/airpods-pro2.jpg",
+                      "productName": "AirPods Pro 2",
+                      "skuId": 2002,
+                      "price": 1899,
+                      "skuName": "USB-C 充电盒",
+                      "quantity": 2,
+                      "subtotal": 3798
+                    }
+                  ],
+                  "message": "操作成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "购物车模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441868511-run"
+      },
+      "post": {
+        "summary": "添加商品到购物车",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】将商品加入当前用户的购物车",
+        "operationId": "添加商品到购物车",
+        "tags": [
+          "购物车管理"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCartsRequest"
+              },
+              "example": {
+                "productId": 2005,
+                "quantity": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCartsResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "cartTotal": 3,
+                    "id": 1002
+                  },
+                  "message": "添加成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "409": {
+            "description": "资源冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 409,
+                  "message": "资源已存在或状态冲突"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-ordering": 5
+          },
+          "422": {
+            "description": "实体无法处理",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 422,
+                  "message": "请求格式正确但语义错误",
+                  "details": {
+                    "field": "email",
+                    "reason": "格式不正确"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "参数错误",
+            "x-apifox-ordering": 6
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 7
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 8
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 9
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "购物车模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441727940-run"
+      },
+      "delete": {
+        "summary": "清空购物车",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】清空当前用户的整个购物车内容",
+        "operationId": "清空购物车",
+        "tags": [
+          "购物车管理"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteCartResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "购物车已清空"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "购物车模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441879013-run"
+      }
+    },
+    "/api/v1/carts/{id}": {
+      "put": {
+        "summary": "更新购物车商品",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】更新购物车中已有的商品信息（通常用于修改商品数量）",
+        "operationId": "更新购物车商品",
+        "tags": [
+          "购物车管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "购物车商品项的唯一ID",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateItemsRequest"
+              },
+              "example": {
+                "quantity": 2
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateItemsResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "id": 1001,
+                    "productId": 2005,
+                    "quantity": 2
+                  },
+                  "message": "更新成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "409": {
+            "description": "资源冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 409,
+                  "message": "资源已存在或状态冲突"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-ordering": 5
+          },
+          "422": {
+            "description": "实体无法处理",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 422,
+                  "message": "请求格式正确但语义错误",
+                  "details": {
+                    "field": "email",
+                    "reason": "格式不正确"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "参数错误",
+            "x-apifox-ordering": 6
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 7
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 8
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 9
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "购物车模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441874591-run"
+      },
+      "delete": {
+        "summary": "删除购物车商品",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】从购物车中删除指定的单个商品",
+        "operationId": "删除购物车商品",
+        "tags": [
+          "购物车管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "购物车商品项的唯一ID",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteItemsResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "删除成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "购物车模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441879012-run"
+      }
+    },
+    "/api/v1/orders": {
+      "post": {
+        "summary": "创建订单",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】根据购物车选择的商品或直接购买创建新的订单",
+        "operationId": "创建订单",
+        "tags": [
+          "订单管理"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrdersRequest"
+              },
+              "example": {
+                "addressId": 501,
+                "items": [
+                  {
+                    "productId": 2005,
+                    "quantity": 1
+                  }
+                ],
+                "note": "周末派送"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrdersResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "orderId": 10001,
+                    "orderNo": "ORD20260411123456"
+                  },
+                  "message": "订单创建成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "409": {
+            "description": "资源冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 409,
+                  "message": "资源已存在或状态冲突"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-ordering": 5
+          },
+          "422": {
+            "description": "实体无法处理",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 422,
+                  "message": "请求格式正确但语义错误",
+                  "details": {
+                    "field": "email",
+                    "reason": "格式不正确"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "参数错误",
+            "x-apifox-ordering": 6
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 7
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 8
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 9
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "订单模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441880932-run"
+      },
+      "get": {
+        "summary": "分页查询订单列表",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】分页查询当前用户的订单列表，支持按状态筛选",
+        "operationId": "分页查询订单列表",
+        "tags": [
+          "订单管理"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "当前页码，默认 1",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页记录数，默认 10",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "订单状态（例如: pending, paid, shipped, completed, cancelled）",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersListResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "items": [
+                      {
+                        "id": 10001,
+                        "orderNo": "ORD20260411123456",
+                        "status": "pending",
+                        "totalAmount": 299
+                      }
+                    ],
+                    "total": 50
+                  },
+                  "message": "获取成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "订单模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441880946-run"
+      }
+    },
+    "/api/v1/orders/{id}": {
+      "get": {
+        "summary": "获取订单详情",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】根据订单ID获取订单详细信息及包含的商品列表",
+        "operationId": "获取订单详情",
+        "tags": [
+          "订单管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "订单唯一ID",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "address": "北京市海淀区中关村南大街1号",
+                    "id": 10001,
+                    "items": [
+                      {
+                        "price": 299,
+                        "productId": 2005,
+                        "productName": "Lumina 显示器",
+                        "quantity": 1
+                      }
+                    ],
+                    "orderNo": "ORD20260411123456",
+                    "status": "pending",
+                    "totalAmount": 299
+                  },
+                  "message": "成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "订单模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441880948-run"
+      }
+    },
+    "/api/v1/orders/{id}/cancel": {
+      "put": {
+        "summary": "取消订单",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】取消一个处于待支付状态的订单",
+        "operationId": "取消订单",
+        "tags": [
+          "订单管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "需取消的订单ID",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCancelRequest"
+              },
+              "example": {
+                "reason": "不想买了"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateCancelResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "订单已取消"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "409": {
+            "description": "资源冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 409,
+                  "message": "资源已存在或状态冲突"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-ordering": 5
+          },
+          "422": {
+            "description": "实体无法处理",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 422,
+                  "message": "请求格式正确但语义错误",
+                  "details": {
+                    "field": "email",
+                    "reason": "格式不正确"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "参数错误",
+            "x-apifox-ordering": 6
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 7
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 8
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 9
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "订单模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441880951-run"
+      }
+    },
+    "/api/v1/payments": {
+      "post": {
+        "summary": "创建支付",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】为指定订单发起支付请求，获取支付跳转链接或支付凭证参数",
+        "operationId": "创建支付",
+        "tags": [
+          "支付管理"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentsRequest"
+              },
+              "example": {
+                "orderId": 10001,
+                "paymentMethod": "alipay"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePaymentsResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "expireAt": "2026-04-11T18:00:00Z",
+                    "payUrl": "https://api.alipay.com/pay?token=xxxx",
+                    "paymentId": "PAY20260411123456"
+                  },
+                  "message": "支付创建成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "409": {
+            "description": "资源冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 409,
+                  "message": "资源已存在或状态冲突"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-ordering": 5
+          },
+          "422": {
+            "description": "实体无法处理",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 422,
+                  "message": "请求格式正确但语义错误",
+                  "details": {
+                    "field": "email",
+                    "reason": "格式不正确"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "参数错误",
+            "x-apifox-ordering": 6
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 7
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 8
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 9
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "支付模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441881409-run"
+      }
+    },
+    "/api/v1/payments/orders/{orderId}": {
+      "get": {
+        "summary": "根据订单ID获取支付信息",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要用户登录\n【功能描述】根据订单ID查询对应的支付状态及详情",
+        "operationId": "根据订单id获取支付信息",
+        "tags": [
+          "支付管理"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "原订单的唯一ID",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "amount": 299,
+                    "orderId": 10001,
+                    "paidAt": "2026-04-11T17:45:00Z",
+                    "paymentId": "PAY20260411123456",
+                    "paymentMethod": "alipay",
+                    "status": "success"
+                  },
+                  "message": "查询成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "支付模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441881411-run"
+      }
+    },
+    "/api/v1/scenarios": {
+      "get": {
+        "summary": "分页查询场景列表",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】如有需要可配置鉴权\n【功能描述】分页查询系统或用户的场景列表数据，支持搜索功能",
+        "operationId": "分页查询场景列表",
+        "tags": [
+          "场景模块"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "当前页码，默认 1",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页记录数，默认 10",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "场景名称或描述的搜索关键字",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScenesListResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "items": [
+                      {
+                        "coverUrl": "https://example.com/cover1.jpg",
+                        "description": "卧室与客厅的联合智能场景控制",
+                        "id": 1,
+                        "name": "智能家居控制"
+                      }
+                    ],
+                    "total": 100
+                  },
+                  "message": "获取成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [],
+        "x-apifox-folder": "场景模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441881718-run"
+      }
+    },
+    "/api/v1/scenarios/{id}": {
+      "get": {
+        "summary": "获取场景详情",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】如有需要可配置鉴权\n【功能描述】根据场景ID获取特定场景的详细配置信息及属性数据",
+        "operationId": "获取场景详情",
+        "tags": [
+          "场景模块"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "场景的唯一ID",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScenesResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "configData": {
+                      "action": "turn_on",
+                      "devices": [
+                        "light-1",
+                        "tv-02"
+                      ]
+                    },
+                    "coverUrl": "https://example.com/cover1.jpg",
+                    "createdAt": "2026-04-01T10:00:00Z",
+                    "description": "卧室与客厅的联合智能场景控制",
+                    "id": 1,
+                    "name": "智能家居控制",
+                    "updatedAt": "2026-04-10T12:00:00Z"
+                  },
+                  "message": "获取成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [],
+        "x-apifox-folder": "场景模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441881722-run"
+      }
+    },
+    "/api/v1/users/me": {
+      "put": {
+        "summary": "更新用户信息",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要持有合法 Token\n【功能描述】编辑和更新当前登录账号的公开基本信息（如昵称、个人签名、头像和联系方式等）",
+        "operationId": "更新用户信息",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMeRequest"
+              },
+              "example": {
+                "avatar": "https://example.com/new-avatar.png",
+                "email": "new.email@example.com",
+                "nickname": "新昵称"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateMeResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "资料已更新"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "409": {
+            "description": "资源冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 409,
+                  "message": "资源已存在或状态冲突"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-ordering": 5
+          },
+          "422": {
+            "description": "实体无法处理",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 422,
+                  "message": "请求格式正确但语义错误",
+                  "details": {
+                    "field": "email",
+                    "reason": "格式不正确"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "参数错误",
+            "x-apifox-ordering": 6
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 7
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 8
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 9
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "用户模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441885895-run"
+      },
+      "get": {
+        "summary": "获取当前用户信息",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【前置条件】需要持有合法 Token\n【功能描述】解析用户当前身份，获取自己账号的详细数据和权限配置。",
+        "operationId": "获取当前用户信息",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeListResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "avatar": "https://example.com/avatar.png",
+                    "email": "admin@example.com",
+                    "id": 10001,
+                    "nickname": "管理员",
+                    "phone": "13800138000",
+                    "status": "active",
+                    "username": "admin01"
+                  },
+                  "message": "成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-apifox-folder": "用户模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441707422-run"
+      }
+    },
+    "/api/v1/users/register": {
+      "post": {
+        "summary": "用户注册",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【功能描述】新用户使用账号密码等资料注册加入平台",
+        "operationId": "用户注册",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRegisterRequest"
+              },
+              "example": {
+                "email": "user@example.com",
+                "password": "StrongPassword!2",
+                "username": "new_user_88"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateRegisterResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "id": 10025,
+                    "username": "new_user_88"
+                  },
+                  "message": "注册成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "409": {
+            "description": "资源冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 409,
+                  "message": "资源已存在或状态冲突"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-ordering": 5
+          },
+          "422": {
+            "description": "实体无法处理",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 422,
+                  "message": "请求格式正确但语义错误",
+                  "details": {
+                    "field": "email",
+                    "reason": "格式不正确"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "参数错误",
+            "x-apifox-ordering": 6
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 7
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 8
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 9
+          }
+        },
+        "security": [],
+        "x-apifox-folder": "用户模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441703036-run"
+      }
+    },
+    "/api/v1/users/login": {
+      "post": {
+        "summary": "用户登录",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【功能描述】用户名密码或手机号密码等多方式登录系统完成认证",
+        "operationId": "用户登录",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLoginRequest"
+              },
+              "example": {
+                "account": "user123",
+                "password": "Password123!"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateLoginResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "accessToken": "eyJh...xxxx",
+                    "expiresIn": 7200,
+                    "refreshToken": "refx...xxxx"
+                  },
+                  "message": "登录成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "409": {
+            "description": "资源冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 409,
+                  "message": "资源已存在或状态冲突"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-ordering": 5
+          },
+          "422": {
+            "description": "实体无法处理",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 422,
+                  "message": "请求格式正确但语义错误",
+                  "details": {
+                    "field": "email",
+                    "reason": "格式不正确"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "参数错误",
+            "x-apifox-ordering": 6
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 7
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 8
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 9
+          }
+        },
+        "security": [],
+        "x-apifox-folder": "用户模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441697162-run"
+      }
+    },
+    "/api/v1/products": {
+      "get": {
+        "summary": "分页查询产品列表",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【功能描述】分页查询商城的商品列表，支持多条件筛选。",
+        "operationId": "分页查询产品列表",
+        "tags": [
+          "产品模块"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "当前页码，默认 1",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页数量，默认 10",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "产品名称搜索关键字",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "商品分类ID",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsListResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "items": [
+                      {
+                        "coverImageUrl": "https://example.com/cover.png",
+                        "id": 2005,
+                        "name": "Lumina 显示器",
+                        "price": 299,
+                        "stock": 50
+                      }
+                    ],
+                    "total": 100
+                  },
+                  "message": "获取成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [],
+        "x-apifox-folder": "产品模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441693212-run"
+      }
+    },
+    "/api/v1/products/{id}": {
+      "get": {
+        "summary": "获取产品详情",
+        "deprecated": false,
+        "description": "【版本】v1\n【环境】REST 接口\n【功能描述】根据产品ID获取单一商品的完整详情及规格信息。",
+        "operationId": "获取产品详情",
+        "tags": [
+          "产品模块"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "商品唯一ID",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "attributes": {
+                      "color": "black",
+                      "size": "27 inch"
+                    },
+                    "description": "4K 高清防蓝光",
+                    "id": 2005,
+                    "images": [
+                      "url1",
+                      "url2"
+                    ],
+                    "name": "Lumina 显示器",
+                    "originalPrice": 399,
+                    "price": 299,
+                    "stock": 50
+                  },
+                  "message": "获取成功"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "成功",
+            "x-apifox-ordering": 0
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "请求参数错误",
+                  "details": {
+                    "field": "name",
+                    "reason": "不能为空"
+                  }
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "请求有误",
+            "x-apifox-ordering": 1
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "未授权，请先登录"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "没有权限",
+            "x-apifox-ordering": 2
+          },
+          "403": {
+            "description": "禁止访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "无权限访问此资源"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "禁止访问",
+            "x-apifox-ordering": 3
+          },
+          "404": {
+            "description": "资源不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "请求的资源不存在"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "记录不存在",
+            "x-apifox-ordering": 4
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "服务器内部错误，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器错误",
+            "x-apifox-ordering": 5
+          },
+          "502": {
+            "description": "网关错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 502,
+                  "message": "网关错误，上游服务不可用"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "网关错误",
+            "x-apifox-ordering": 6
+          },
+          "503": {
+            "description": "服务不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 503,
+                  "message": "服务暂时不可用，请稍后重试"
+                }
+              }
+            },
+            "headers": {},
+            "x-apifox-name": "服务器故障",
+            "x-apifox-ordering": 7
+          }
+        },
+        "security": [],
+        "x-apifox-folder": "产品模块",
+        "x-apifox-status": "released",
+        "x-run-in-apifox": "https://app.apifox.com/web/project/8090070/apis/api-441717543-run"
+      }
+    }
+  },
+  "webhooks": {},
+  "components": {
+    "schemas": {
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "状态码",
+            "x-apifox-mock": "200"
+          },
+          "msg": {
+            "type": "string",
+            "x-apifox-mock": "操作成功",
+            "title": "提示信息"
+          },
+          "data": {
+            "type": "object",
+            "properties": {},
+            "x-apifox-orders": [],
+            "title": "返回的业务数据",
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "x-apifox-orders": [
+          "code",
+          "msg",
+          "data"
+        ],
+        "required": [
+          "code",
+          "msg",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "标准错误响应",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "错误码"
+          },
+          "message": {
+            "type": "string",
+            "description": "错误信息"
+          },
+          "details": {
+            "type": "object",
+            "description": "详细信息",
+            "x-apifox-orders": [],
+            "properties": {},
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "x-apifox-orders": [
+          "code",
+          "message",
+          "details"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CartsListResponse": {
+        "properties": {
+          "code": {
+            "description": "响应状态码",
+            "type": "integer"
+          },
+          "message": {
+            "description": "响应消息",
+            "type": "string"
+          },
+          "data": {
+            "description": "购物车商品列表",
+            "items": {
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "购物车项 ID"
+                },
+                "productId": {
+                  "description": "商品 ID",
+                  "type": "integer"
+                },
+                "skuId": {
+                  "type": "integer",
+                  "description": "SKU ID"
+                },
+                "productImage": {
+                  "type": "string",
+                  "description": "商品图片 URL"
+                },
+                "productName": {
+                  "description": "商品名称",
+                  "type": "string"
+                },
+                "price": {
+                  "type": "number",
+                  "description": "商品单价"
+                },
+                "skuName": {
+                  "description": "SKU 规格名称",
+                  "type": "string"
+                },
+                "quantity": {
+                  "description": "购买数量",
+                  "type": "integer"
+                },
+                "subtotal": {
+                  "description": "小计金额",
+                  "type": "number"
+                }
+              },
+              "type": "object",
+              "required": [
+                "id",
+                "productId",
+                "skuId",
+                "productName",
+                "price",
+                "quantity",
+                "subtotal"
+              ],
+              "x-apifox-orders": [
+                "id",
+                "productId",
+                "skuId",
+                "productImage",
+                "productName",
+                "price",
+                "skuName",
+                "quantity",
+                "subtotal"
+              ],
+              "x-apifox-ignore-properties": []
+            },
+            "type": "array"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "x-apifox-orders": [
+          "code",
+          "message",
+          "data"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "UpdateItemsRequest": {
+        "properties": {
+          "quantity": {
+            "description": "更新后的商品数量",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "quantity"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "quantity"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "DeleteItemsResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "DeleteCartResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreateOrdersRequest": {
+        "properties": {
+          "addressId": {
+            "description": "收货地址ID",
+            "type": "integer"
+          },
+          "items": {
+            "description": "订单商品列表",
+            "items": {
+              "properties": {
+                "productId": {
+                  "description": "商品ID",
+                  "type": "integer"
+                },
+                "quantity": {
+                  "description": "购买数量",
+                  "type": "integer"
+                }
+              },
+              "type": "object",
+              "x-apifox-orders": [
+                "productId",
+                "quantity"
+              ],
+              "x-apifox-ignore-properties": []
+            },
+            "type": "array"
+          },
+          "note": {
+            "description": "订单备注",
+            "type": "string"
+          }
+        },
+        "required": [
+          "addressId"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "addressId",
+          "items",
+          "note"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "OrdersListResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "分页数据",
+            "properties": {
+              "items": {
+                "description": "订单列表",
+                "items": {
+                  "properties": {
+                    "id": {
+                      "description": "订单ID",
+                      "type": "integer"
+                    },
+                    "orderNo": {
+                      "description": "订单编号",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "订单状态",
+                      "type": "string"
+                    },
+                    "totalAmount": {
+                      "description": "订单总金额",
+                      "type": "number"
+                    }
+                  },
+                  "type": "object",
+                  "x-apifox-orders": [
+                    "id",
+                    "orderNo",
+                    "status",
+                    "totalAmount"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "type": "array"
+              },
+              "total": {
+                "description": "总记录数",
+                "type": "integer"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "items",
+              "total"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "OrdersResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "订单详细数据",
+            "properties": {
+              "address": {
+                "description": "完整的收货地址信息",
+                "type": "string"
+              },
+              "id": {
+                "description": "订单ID",
+                "type": "integer"
+              },
+              "items": {
+                "description": "订单内商品详情列表",
+                "items": {
+                  "properties": {
+                    "price": {
+                      "description": "购买时的单价",
+                      "type": "number"
+                    },
+                    "productId": {
+                      "description": "商品ID",
+                      "type": "integer"
+                    },
+                    "productName": {
+                      "description": "商品名称",
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "description": "购买数量",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object",
+                  "x-apifox-orders": [
+                    "price",
+                    "productId",
+                    "productName",
+                    "quantity"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "type": "array"
+              },
+              "orderNo": {
+                "description": "订单编号",
+                "type": "string"
+              },
+              "status": {
+                "description": "订单状态",
+                "type": "string"
+              },
+              "totalAmount": {
+                "description": "订单总金额",
+                "type": "number"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "address",
+              "id",
+              "items",
+              "orderNo",
+              "status",
+              "totalAmount"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "UpdateCancelRequest": {
+        "properties": {
+          "reason": {
+            "description": "取消原因",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "x-apifox-orders": [
+          "reason"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreatePaymentsRequest": {
+        "properties": {
+          "orderId": {
+            "description": "需支付的订单ID",
+            "type": "integer"
+          },
+          "paymentMethod": {
+            "description": "支付方式（如：alipay, wechat, credit_card）",
+            "type": "string"
+          }
+        },
+        "required": [
+          "orderId",
+          "paymentMethod"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "orderId",
+          "paymentMethod"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "OrderResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "支付详情",
+            "properties": {
+              "amount": {
+                "description": "支付金额",
+                "type": "number"
+              },
+              "orderId": {
+                "description": "绑定的订单ID",
+                "type": "integer"
+              },
+              "paidAt": {
+                "description": "实际支付完成的时间（如未支付则为空）",
+                "type": "string"
+              },
+              "paymentId": {
+                "description": "内部支付流水号",
+                "type": "string"
+              },
+              "paymentMethod": {
+                "description": "使用的支付方式",
+                "type": "string"
+              },
+              "status": {
+                "description": "支付状态（如：pending, success, failed, refunded）",
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "amount",
+              "orderId",
+              "paidAt",
+              "paymentId",
+              "paymentMethod",
+              "status"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "ScenesListResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "分页数据",
+            "properties": {
+              "items": {
+                "description": "场景列表",
+                "items": {
+                  "properties": {
+                    "coverUrl": {
+                      "description": "场景封面图链接",
+                      "type": "string"
+                    },
+                    "description": {
+                      "description": "场景简要描述",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "场景ID",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "description": "场景名称",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "x-apifox-orders": [
+                    "coverUrl",
+                    "description",
+                    "id",
+                    "name"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "type": "array"
+              },
+              "total": {
+                "description": "总记录数",
+                "type": "integer"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "items",
+              "total"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "ScenesResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "场景详情数据",
+            "properties": {
+              "configData": {
+                "description": "场景的配置参数或扩展元数据",
+                "type": "object",
+                "x-apifox-orders": [],
+                "properties": {},
+                "x-apifox-ignore-properties": []
+              },
+              "coverUrl": {
+                "description": "场景封面图链接",
+                "type": "string"
+              },
+              "createdAt": {
+                "description": "创建时间",
+                "type": "string"
+              },
+              "description": {
+                "description": "场景详尽描述",
+                "type": "string"
+              },
+              "id": {
+                "description": "场景ID",
+                "type": "integer"
+              },
+              "name": {
+                "description": "场景名称",
+                "type": "string"
+              },
+              "updatedAt": {
+                "description": "最后更新时间",
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "configData",
+              "coverUrl",
+              "createdAt",
+              "description",
+              "id",
+              "name",
+              "updatedAt"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "UpdateMeRequest": {
+        "properties": {
+          "avatar": {
+            "description": "新头像链接",
+            "type": "string"
+          },
+          "email": {
+            "description": "更新电子邮箱",
+            "type": "string"
+          },
+          "nickname": {
+            "description": "新昵称",
+            "type": "string"
+          },
+          "phone": {
+            "description": "更新手机号码",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "x-apifox-orders": [
+          "avatar",
+          "email",
+          "nickname",
+          "phone"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreateLoginRequest": {
+        "properties": {
+          "account": {
+            "description": "用户名、手机号或邮箱",
+            "type": "string"
+          },
+          "password": {
+            "description": "登录密码",
+            "type": "string"
+          }
+        },
+        "required": [
+          "account",
+          "password"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "account",
+          "password"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreateRegisterRequest": {
+        "properties": {
+          "email": {
+            "description": "绑定邮箱（可选）",
+            "type": "string"
+          },
+          "password": {
+            "description": "设置登录密码",
+            "type": "string"
+          },
+          "username": {
+            "description": "设置登录用户名",
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "email",
+          "password",
+          "username"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "MeListResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "用户详情数据",
+            "properties": {
+              "avatar": {
+                "description": "头像缩略图链接",
+                "type": "string"
+              },
+              "email": {
+                "description": "电子邮箱",
+                "type": "string"
+              },
+              "id": {
+                "description": "真实用户ID",
+                "type": "integer"
+              },
+              "nickname": {
+                "description": "页面展示昵称",
+                "type": "string"
+              },
+              "phone": {
+                "description": "联系手机",
+                "type": "string"
+              },
+              "status": {
+                "description": "账户状态：active/disabled",
+                "type": "string"
+              },
+              "username": {
+                "description": "账户登录名",
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "avatar",
+              "email",
+              "id",
+              "nickname",
+              "phone",
+              "status",
+              "username"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "ProductsListResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "分页数据",
+            "properties": {
+              "items": {
+                "description": "产品列表",
+                "items": {
+                  "properties": {
+                    "coverImageUrl": {
+                      "description": "封面图",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "产品ID",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "description": "产品名称",
+                      "type": "string"
+                    },
+                    "price": {
+                      "description": "售价",
+                      "type": "number"
+                    },
+                    "stock": {
+                      "description": "库存",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object",
+                  "x-apifox-orders": [
+                    "coverImageUrl",
+                    "id",
+                    "name",
+                    "price",
+                    "stock"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "type": "array"
+              },
+              "total": {
+                "description": "总数",
+                "type": "integer"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "items",
+              "total"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "ProductsResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "产品详情数据",
+            "properties": {
+              "attributes": {
+                "description": "商品规格属性（如颜色、内存等）",
+                "type": "object",
+                "x-apifox-orders": [],
+                "properties": {},
+                "x-apifox-ignore-properties": []
+              },
+              "description": {
+                "description": "详细描述/富文本",
+                "type": "string"
+              },
+              "id": {
+                "description": "产品ID",
+                "type": "integer"
+              },
+              "images": {
+                "description": "轮播图列表",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "name": {
+                "description": "产品名称",
+                "type": "string"
+              },
+              "originalPrice": {
+                "description": "原价",
+                "type": "number"
+              },
+              "price": {
+                "description": "售价",
+                "type": "number"
+              },
+              "stock": {
+                "description": "当前库存",
+                "type": "integer"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "attributes",
+              "description",
+              "id",
+              "images",
+              "name",
+              "originalPrice",
+              "price",
+              "stock"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreateCartsRequest": {
+        "properties": {
+          "productId": {
+            "description": "要添加的商品ID",
+            "type": "integer"
+          },
+          "quantity": {
+            "description": "添加数量",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "productId",
+          "quantity"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "productId",
+          "quantity"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "UpdateItemsResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "响应数据",
+            "properties": {
+              "id": {
+                "description": "购物车项ID",
+                "type": "integer"
+              },
+              "productId": {
+                "description": "商品ID",
+                "type": "integer"
+              },
+              "quantity": {
+                "description": "当前数量",
+                "type": "integer"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "id",
+              "productId",
+              "quantity"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreateOrdersResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "订单数据",
+            "properties": {
+              "orderId": {
+                "description": "新建订单的唯一ID",
+                "type": "integer"
+              },
+              "orderNo": {
+                "description": "订单编号",
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "orderId",
+              "orderNo"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "UpdateCancelResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreatePaymentsResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "支付凭证数据",
+            "properties": {
+              "expireAt": {
+                "description": "凭证（二维码/链接）超时时间",
+                "type": "string"
+              },
+              "payUrl": {
+                "description": "第三方支付跳转链接（用于重定向或生成二维码）",
+                "type": "string"
+              },
+              "paymentId": {
+                "description": "内部支付流水号",
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "expireAt",
+              "payUrl",
+              "paymentId"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "UpdateMeResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreateLoginResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "认证数据",
+            "properties": {
+              "accessToken": {
+                "description": "访问令牌（Bearer Token）",
+                "type": "string"
+              },
+              "expiresIn": {
+                "description": "过期时间阈值（秒）",
+                "type": "integer"
+              },
+              "refreshToken": {
+                "description": "用于换取新令牌的刷新令牌",
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "accessToken",
+              "expiresIn",
+              "refreshToken"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreateRegisterResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "注册新建用户基本数据",
+            "properties": {
+              "id": {
+                "description": "用户ID",
+                "type": "integer"
+              },
+              "username": {
+                "description": "用户名",
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "id",
+              "username"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "CreateCartsResponse": {
+        "properties": {
+          "code": {
+            "description": "状态码",
+            "type": "integer"
+          },
+          "data": {
+            "description": "添加后的相关状态",
+            "properties": {
+              "cartTotal": {
+                "description": "购物车当前商品总数",
+                "type": "integer"
+              },
+              "id": {
+                "description": "购物车条目ID",
+                "type": "integer"
+              }
+            },
+            "type": "object",
+            "x-apifox-orders": [
+              "cartTotal",
+              "id"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "message": {
+            "description": "提示信息",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "x-apifox-orders": [
+          "code",
+          "data",
+          "message"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      }
+    },
+    "responses": {},
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "servers": [],
+  "security": []
+}
