@@ -1,0 +1,50 @@
+:root {
+  --color-primary: #ff5000;
+  --color-primary-dark: #e04600;
+  --color-sidebar-bg: #1a1a2e;
+  --color-sidebar-text: #b8b8b8;
+  --color-sidebar-active: #ff5000;
+  --color-content-bg: #f5f6f8;
+  --color-card-bg: #ffffff;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-border: #e4e4e4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, 'Microsoft YaHei', sans-serif;
+  background-color: var(--color-content-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}

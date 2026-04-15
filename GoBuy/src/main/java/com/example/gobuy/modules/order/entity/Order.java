@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -24,6 +25,9 @@ public class Order extends BaseEntity {
     private String status;
 
     private String note;
+    private String expressCompany;
+    private String expressNo;
+    private LocalDateTime shippedAt;
 
     @TableLogic
     private Boolean deleted;

@@ -54,4 +54,12 @@ public class PaymentController {
         paymentService.refundPayment(userId, paymentId);
         return Result.success();
     }
+
+    @PostMapping("/mock-pay/{orderId}")
+    @Operation(summary = "模拟支付（点击即支付）")
+    public Result<Void> mockPay(@PathVariable("orderId") Long orderId) {
+        Long userId = UserContextHolder.getRequiredUserId();
+        paymentService.createMockPayment(userId, orderId);
+        return Result.success();
+    }
 }

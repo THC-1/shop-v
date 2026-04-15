@@ -17,4 +17,6 @@ public interface IPaymentService extends IService<Payment> {
     void refundPayment(Long userId, Long paymentId);
     
     List<Payment> listMyPayments(Long userId);
+
+    Payment createMockPayment(Long userId, Long orderId);
 }

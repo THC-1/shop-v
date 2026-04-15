@@ -1,5 +1,6 @@
 package com.example.gobuy.modules.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.gobuy.common.entity.BaseEntity;
 import lombok.Data;
@@ -29,4 +30,8 @@ public class Product extends BaseEntity {
     private Long categoryId;
 
     private Long brandId;
+    private String status = "ON_SALE";
+    private Integer salesCount = 0;
+    @TableLogic
+    private Integer deleted;
 }

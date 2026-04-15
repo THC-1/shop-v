@@ -17,4 +17,5 @@ public class Category extends BaseEntity {
     private Integer sort;
 
     private String icon;
+    private String status = "ACTIVE";
 }

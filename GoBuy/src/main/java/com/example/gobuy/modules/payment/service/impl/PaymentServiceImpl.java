@@ -110,4 +110,39 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, Payment> impl
         wrapper.orderByDesc(Payment::getCreatedAt);
         return list(wrapper);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Payment createMockPayment(Long userId, Long orderId) {
+        Order order = orderMapper.selectById(orderId);
+        if (order == null) {
+            throw new BusinessException(404, "订单不存在");
+        }
+        if (!order.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权操作此订单");
+        }
+        if (!"PENDING_PAYMENT".equals(order.getStatus())) {
+            throw new BusinessException(400, "当前订单状态无需支付");
+        }
+
+        Payment existingPayment = getByOrderId(orderId);
+        if (existingPayment != null && "paid".equals(existingPayment.getStatus())) {
+            throw new BusinessException(400, "该订单已支付");
+        }
+
+        Payment payment = new Payment();
+        payment.setOrderId(orderId);
+        payment.setPaymentMethod("MOCK");
+        payment.setAmount(order.getTotalAmount());
+        payment.setStatus("paid");
+        payment.setCreatedAt(LocalDateTime.now());
+        payment.setUpdatedAt(LocalDateTime.now());
+        save(payment);
+
+        order.setStatus("PAID");
+        order.setUpdatedAt(LocalDateTime.now());
+        orderMapper.updateById(order);
+
+        return payment;
+    }
 }

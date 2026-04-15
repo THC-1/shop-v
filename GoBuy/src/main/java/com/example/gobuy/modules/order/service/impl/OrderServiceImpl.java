@@ -176,7 +176,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         if (!"SHIPPED".equals(order.getStatus())) {
             throw new BusinessException(400, "只有已发货的订单才能确认收货");
         }
-        order.setStatus("DELIVERED");
+        order.setStatus("COMPLETED");
         updateById(order);
         return Result.success();
     }

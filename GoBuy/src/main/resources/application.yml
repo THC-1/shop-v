@@ -26,6 +26,7 @@ mybatis-plus:
 jwt:
   secret: GoBuySecretKeyForJwtTokenGenerationMustBe256BitsLong!!
   expiration: 86400000
+  admin-expiration: 7200000
 
 logging:
   level:

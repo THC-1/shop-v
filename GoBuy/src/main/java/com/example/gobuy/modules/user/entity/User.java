@@ -22,5 +22,5 @@ public class User extends BaseEntity {
 
     private String avatar;
 
-    private String status;
+    private String status = "ACTIVE";
 }

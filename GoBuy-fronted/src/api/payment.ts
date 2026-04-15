@@ -15,3 +15,7 @@ export function handlePaymentCallback(paymentId: number, status: string) {
 export function refundPayment(paymentId: number) {
   return request.put(`/payments/${paymentId}/refund`)
 }
+
+export function mockPay(orderId: number) {
+  return request.post(`/payments/mock-pay/${orderId}`)
+}

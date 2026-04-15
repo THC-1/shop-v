@@ -52,7 +52,9 @@ public class ScenarioServiceImpl extends ServiceImpl<ScenarioMapper, Scenario> i
             return List.of();
         }
 
-        return productMapper.selectBatchIds(productIds);
+        LambdaQueryWrapper<Product> productWrapper = new LambdaQueryWrapper<>();
+        productWrapper.in(Product::getId, productIds);
+        return productMapper.selectList(productWrapper);
     }
 
     @Override

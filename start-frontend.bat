@@ -1,0 +1,6 @@
+@echo off
+echo 正在启动商城前台...
+start cmd /k "cd GoBuy-fronted && npm run dev"
+
+echo 正在启动管理后台...
+start cmd /k "cd GoBuy-admin && npm run dev"

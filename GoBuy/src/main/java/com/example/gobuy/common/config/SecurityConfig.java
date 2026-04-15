@@ -1,7 +1,9 @@
 package com.example.gobuy.common.config;
 
+import com.example.gobuy.common.utils.AdminContextHolder;
 import com.example.gobuy.common.utils.JwtUtil;
 import com.example.gobuy.common.utils.UserContextHolder;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +30,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -46,6 +49,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/v1/users/login",
                     "/api/v1/users/register",
+                    "/api/v1/admin/sessions",
                     "/api/v1/products/**",
                     "/api/v1/skus/**",
                     "/api/v1/scenarios/**",
@@ -101,7 +105,9 @@ public class SecurityConfig {
                 return;
             }
 
-            if (requestUri.equals("/api/v1/users/login") || requestUri.equals("/api/v1/users/register")) {
+            if (requestUri.equals("/api/v1/users/login")
+                || requestUri.equals("/api/v1/users/register")
+                || requestUri.equals("/api/v1/admin/sessions")) {
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -121,21 +127,56 @@ public class SecurityConfig {
 
             try {
                 String actualToken = token.substring(7);
-                Long userId = jwtUtil.getUserIdFromToken(actualToken);
-                UserContextHolder.setUserId(userId);
 
-                UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userId, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
-                SecurityContext context = SecurityContextHolder.createEmptyContext();
-                context.setAuthentication(authentication);
-                SecurityContextHolder.setContext(context);
+                if (requestUri.startsWith("/api/v1/admin/")) {
+                    handleAdminToken(actualToken);
+                } else {
+                    handleUserToken(actualToken);
+                }
 
                 filterChain.doFilter(request, response);
             } catch (Exception e) {
                 response.setStatus(401);
             } finally {
                 UserContextHolder.clear();
+                AdminContextHolder.clear();
             }
+        }
+
+        private void handleAdminToken(String token) {
+            Claims claims = jwtUtil.parseToken(token);
+            Object adminIdObj = claims.get("adminId");
+            if (adminIdObj == null) {
+                throw new RuntimeException("Invalid admin token");
+            }
+            Long adminId = Long.valueOf(adminIdObj.toString());
+            List<String> roles = claims.get("roles", List.class);
+            if (roles == null) {
+                roles = new ArrayList<>();
+            }
+
+            AdminContextHolder.setAdminId(adminId);
+            AdminContextHolder.setRoles(roles);
+            AdminContextHolder.setPermissions(new ArrayList<>());
+
+            UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(adminId, null,
+                    List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(authentication);
+            SecurityContextHolder.setContext(context);
+        }
+
+        private void handleUserToken(String token) {
+            Long userId = jwtUtil.getUserIdFromToken(token);
+            UserContextHolder.setUserId(userId);
+
+            UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(userId, null,
+                    List.of(new SimpleGrantedAuthority("ROLE_USER")));
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(authentication);
+            SecurityContextHolder.setContext(context);
         }
     }
 }

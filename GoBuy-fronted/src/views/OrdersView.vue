@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { listMyOrders, confirmOrder, cancelOrder, deleteOrder } from '@/api/order'
+import { mockPay } from '@/api/payment'
 
 const orders = ref<any[]>([])
 const total = ref(0)
@@ -55,6 +56,14 @@ function switchTab(status: number | undefined) {
   currentStatus.value = status
   pageNum.value = 1
   fetchOrders()
+}
+
+async function handlePay(id: number) {
+  if (!confirm('确认支付该订单？')) return
+  try {
+    await mockPay(id)
+    fetchOrders()
+  } catch { /* handled */ }
 }
 
 async function handleConfirm(id: number) {
@@ -124,6 +133,13 @@ onMounted(fetchOrders)
             <div v-if="order.note" class="text-xs text-gray-400">备注：{{ order.note }}</div>
           </div>
           <div class="flex items-center justify-end gap-2 px-6 py-3 border-t bg-gray-50">
+            <button
+              v-if="order.status === '0' || order.status === 'PENDING_PAYMENT'"
+              class="px-4 py-1.5 text-sm bg-taobao text-white rounded-full hover:bg-red-500 transition-colors"
+              @click="handlePay(order.id)"
+            >
+              立即支付
+            </button>
             <button
               v-if="order.status === '2' || order.status === 'SHIPPED' || order.status === '3' || order.status === 'DELIVERED'"
               class="px-4 py-1.5 text-sm border border-taobao text-taobao rounded-full hover:bg-taobao hover:text-white transition-colors"
