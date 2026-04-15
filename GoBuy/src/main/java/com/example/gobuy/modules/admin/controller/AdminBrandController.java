@@ -27,36 +27,34 @@ public class AdminBrandController {
     @RequirePermission("BRAND:VIEW")
     @Operation(summary = "品牌列表")
     public Result<IPage<BrandVO>> listBrands(BrandQueryDTO queryDTO) {
-        return Result.success(adminBrandService.listBrands(queryDTO));
+        return adminBrandService.listBrands(queryDTO);
     }
 
     @GetMapping("/{id}")
     @RequirePermission("BRAND:VIEW")
     @Operation(summary = "品牌详情")
     public Result<BrandDetailVO> getBrandDetail(@PathVariable Long id) {
-        return Result.success(adminBrandService.getBrandDetail(id));
+        return adminBrandService.getBrandDetail(id);
     }
 
     @PostMapping
     @RequirePermission("BRAND:EDIT")
     @Operation(summary = "创建品牌")
     public Result<Long> createBrand(@Valid @RequestBody BrandCreateDTO dto) {
-        return Result.success(adminBrandService.createBrand(dto));
+        return adminBrandService.createBrand(dto);
     }
 
     @PutMapping("/{id}")
     @RequirePermission("BRAND:EDIT")
     @Operation(summary = "更新品牌")
     public Result<Void> updateBrand(@PathVariable Long id, @Valid @RequestBody BrandUpdateDTO dto) {
-        adminBrandService.updateBrand(id, dto);
-        return Result.success();
+        return adminBrandService.updateBrand(id, dto);
     }
 
     @DeleteMapping("/{id}")
     @RequirePermission("BRAND:EDIT")
     @Operation(summary = "删除品牌")
     public Result<Void> deleteBrand(@PathVariable Long id) {
-        adminBrandService.deleteBrand(id);
-        return Result.success();
+        return adminBrandService.deleteBrand(id);
     }
 }

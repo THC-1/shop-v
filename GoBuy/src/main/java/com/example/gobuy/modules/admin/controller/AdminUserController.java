@@ -28,14 +28,14 @@ public class AdminUserController {
     @RequirePermission("USER:VIEW")
     @Operation(summary = "用户列表")
     public Result<IPage<AdminUserVO>> listUsers(AdminUserQueryDTO queryDTO) {
-        return Result.success(adminUserService.listUsers(queryDTO));
+        return adminUserService.listUsers(queryDTO);
     }
 
     @GetMapping("/{id}")
     @RequirePermission("USER:VIEW")
     @Operation(summary = "用户详情")
     public Result<AdminUserDetailVO> getUserDetail(@PathVariable Long id) {
-        return Result.success(adminUserService.getUserDetail(id));
+        return adminUserService.getUserDetail(id);
     }
 
     @PatchMapping("/{id}/status")
@@ -43,8 +43,7 @@ public class AdminUserController {
     @OperationLog(module = "用户", action = "更新用户状态", targetType = "User")
     @Operation(summary = "更新用户状态")
     public Result<Void> updateUserStatus(@PathVariable Long id, @Valid @RequestBody UserStatusDTO dto) {
-        adminUserService.updateUserStatus(id, dto);
-        return Result.success();
+        return adminUserService.updateUserStatus(id, dto);
     }
 
     @PostMapping("/{id}/roles")
@@ -52,7 +51,6 @@ public class AdminUserController {
     @OperationLog(module = "用户", action = "分配用户角色", targetType = "User")
     @Operation(summary = "分配用户角色")
     public Result<Void> assignUserRoles(@PathVariable Long id, @Valid @RequestBody UserRoleDTO dto) {
-        adminUserService.assignUserRoles(id, dto);
-        return Result.success();
+        return adminUserService.assignUserRoles(id, dto);
     }
 }

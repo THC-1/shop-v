@@ -28,14 +28,14 @@ public class AdminOrderController {
     @RequirePermission("ORDER:VIEW")
     @Operation(summary = "订单列表")
     public Result<IPage<AdminOrderVO>> listOrders(AdminOrderQueryDTO queryDTO) {
-        return Result.success(adminOrderService.listOrders(queryDTO));
+        return adminOrderService.listOrders(queryDTO);
     }
 
     @GetMapping("/{id}")
     @RequirePermission("ORDER:VIEW")
     @Operation(summary = "订单详情")
     public Result<AdminOrderDetailVO> getOrderDetail(@PathVariable Long id) {
-        return Result.success(adminOrderService.getOrderDetail(id));
+        return adminOrderService.getOrderDetail(id);
     }
 
     @PatchMapping("/{id}/ship")
@@ -43,8 +43,7 @@ public class AdminOrderController {
     @OperationLog(module = "订单", action = "订单发货", targetType = "Order")
     @Operation(summary = "订单发货")
     public Result<Void> shipOrder(@PathVariable Long id, @Valid @RequestBody OrderShipDTO dto) {
-        adminOrderService.shipOrder(id, dto);
-        return Result.success();
+        return adminOrderService.shipOrder(id, dto);
     }
 
     @PostMapping("/batch/ship")
@@ -52,7 +51,6 @@ public class AdminOrderController {
     @OperationLog(module = "订单", action = "批量发货", targetType = "Order")
     @Operation(summary = "批量发货")
     public Result<Void> batchShip(@Valid @RequestBody BatchShipDTO dto) {
-        adminOrderService.batchShip(dto);
-        return Result.success();
+        return adminOrderService.batchShip(dto);
     }
 }

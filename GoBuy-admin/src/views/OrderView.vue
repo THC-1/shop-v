@@ -25,7 +25,7 @@ const statusMap: Record<string, { label: string; type: string }> = {
   PAID: { label: '已付款', type: 'success' },
   SHIPPED: { label: '已发货', type: 'primary' },
   DELIVERED: { label: '已送达', type: 'info' },
-  COMPLETED: { label: '已完成', type: '' },
+  COMPLETED: { label: '已完成', type: 'success' },
   CANCELLED: { label: '已取消', type: 'danger' }
 }
 

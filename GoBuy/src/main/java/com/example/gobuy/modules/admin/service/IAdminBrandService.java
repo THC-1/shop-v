@@ -1,18 +1,17 @@
 package com.example.gobuy.modules.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.gobuy.common.result.Result;
 import com.example.gobuy.modules.admin.dto.BrandCreateDTO;
 import com.example.gobuy.modules.admin.dto.BrandQueryDTO;
 import com.example.gobuy.modules.admin.dto.BrandUpdateDTO;
 import com.example.gobuy.modules.admin.vo.BrandDetailVO;
 import com.example.gobuy.modules.admin.vo.BrandVO;
-import com.example.gobuy.modules.product.entity.Brand;
 
-public interface IAdminBrandService extends IService<Brand> {
-    IPage<BrandVO> listBrands(BrandQueryDTO queryDTO);
-    BrandDetailVO getBrandDetail(Long id);
-    Long createBrand(BrandCreateDTO dto);
-    void updateBrand(Long id, BrandUpdateDTO dto);
-    void deleteBrand(Long id);
+public interface IAdminBrandService {
+    Result<IPage<BrandVO>> listBrands(BrandQueryDTO queryDTO);
+    Result<BrandDetailVO> getBrandDetail(Long id);
+    Result<Long> createBrand(BrandCreateDTO dto);
+    Result<Void> updateBrand(Long id, BrandUpdateDTO dto);
+    Result<Void> deleteBrand(Long id);
 }

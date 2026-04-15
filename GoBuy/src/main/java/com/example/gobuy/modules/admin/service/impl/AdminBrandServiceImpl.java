@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.gobuy.common.exception.BusinessException;
+import com.example.gobuy.common.result.Result;
 import com.example.gobuy.modules.admin.assembler.AdminBrandAssembler;
 import com.example.gobuy.modules.admin.dto.BrandCreateDTO;
 import com.example.gobuy.modules.admin.dto.BrandQueryDTO;
@@ -33,7 +34,7 @@ public class AdminBrandServiceImpl extends ServiceImpl<BrandMapper, Brand> imple
     private final ProductMapper productMapper;
 
     @Override
-    public IPage<BrandVO> listBrands(BrandQueryDTO queryDTO) {
+    public Result<IPage<BrandVO>> listBrands(BrandQueryDTO queryDTO) {
         LambdaQueryWrapper<Brand> wrapper = new LambdaQueryWrapper<>();
         if (StringUtils.hasText(queryDTO.getName())) {
             wrapper.like(Brand::getName, queryDTO.getName());
@@ -54,33 +55,33 @@ public class AdminBrandServiceImpl extends ServiceImpl<BrandMapper, Brand> imple
 
         IPage<BrandVO> voPage = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
         voPage.setRecords(voList);
-        return voPage;
+        return Result.success(voPage);
     }
 
     @Override
-    public BrandDetailVO getBrandDetail(Long id) {
+    public Result<BrandDetailVO> getBrandDetail(Long id) {
         Brand brand = getById(id);
         if (brand == null) {
             throw new BusinessException(404, "品牌不存在");
         }
         BrandDetailVO vo = assembler.toDetailVO(brand);
         vo.setProductCount(countProducts(id));
-        return vo;
+        return Result.success(vo);
     }
 
     @Override
-    public Long createBrand(BrandCreateDTO dto) {
+    public Result<Long> createBrand(BrandCreateDTO dto) {
         LambdaQueryWrapper<Brand> wrapper = new LambdaQueryWrapper<Brand>().eq(Brand::getName, dto.getName());
         if (count(wrapper) > 0) {
             throw new BusinessException(409, "品牌名称已存在");
         }
         Brand brand = assembler.toEntity(dto);
         save(brand);
-        return brand.getId();
+        return Result.success(brand.getId());
     }
 
     @Override
-    public void updateBrand(Long id, BrandUpdateDTO dto) {
+    public Result<Void> updateBrand(Long id, BrandUpdateDTO dto) {
         Brand brand = getById(id);
         if (brand == null) {
             throw new BusinessException(404, "品牌不存在");
@@ -93,11 +94,12 @@ public class AdminBrandServiceImpl extends ServiceImpl<BrandMapper, Brand> imple
         }
         assembler.updateEntity(brand, dto);
         updateById(brand);
+        return Result.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteBrand(Long id) {
+    public Result<Void> deleteBrand(Long id) {
         Brand brand = getById(id);
         if (brand == null) {
             throw new BusinessException(404, "品牌不存在");
@@ -106,6 +108,7 @@ public class AdminBrandServiceImpl extends ServiceImpl<BrandMapper, Brand> imple
             throw new BusinessException(422, "该品牌下存在商品，无法删除");
         }
         removeById(id);
+        return Result.success();
     }
 
     private Map<Long, Long> batchCountProducts(List<Long> brandIds) {

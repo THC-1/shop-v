@@ -53,10 +53,12 @@ public class CartController {
         Set<Long> productIds = carts.stream().map(Cart::getProductId).collect(Collectors.toSet());
         Set<Long> skuIds = carts.stream().map(Cart::getSkuId).collect(Collectors.toSet());
 
-        Map<Long, Product> productMap = productService.listByIds(productIds).stream()
-                .collect(Collectors.toMap(Product::getId, p -> p));
-        Map<Long, Sku> skuMap = skuService.listByIds(skuIds).stream()
-                .collect(Collectors.toMap(Sku::getId, s -> s));
+        Map<Long, Product> productMap = productIds.isEmpty() ? Map.of() :
+                productService.listByIds(productIds).stream()
+                        .collect(Collectors.toMap(Product::getId, p -> p));
+        Map<Long, Sku> skuMap = skuIds.isEmpty() ? Map.of() :
+                skuService.listByIds(skuIds).stream()
+                        .collect(Collectors.toMap(Sku::getId, s -> s));
 
         for (CartItemVO vo : voList) {
             Product product = productMap.get(vo.getProductId());

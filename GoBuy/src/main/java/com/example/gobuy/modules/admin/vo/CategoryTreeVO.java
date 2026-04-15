@@ -2,7 +2,8 @@ package com.example.gobuy.modules.admin.vo;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class CategoryTreeVO {
@@ -12,5 +13,5 @@ public class CategoryTreeVO {
     private Integer sort;
     private String icon;
     private String status;
-    private java.util.List<CategoryTreeVO> children = new java.util.ArrayList<>();
+    private List<CategoryTreeVO> children = new ArrayList<>();
 }

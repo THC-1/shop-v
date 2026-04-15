@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.gobuy.common.exception.BusinessException;
+import com.example.gobuy.common.result.Result;
 import com.example.gobuy.modules.admin.assembler.AdminProductAssembler;
 import com.example.gobuy.modules.admin.dto.AdminProductCreateDTO;
 import com.example.gobuy.modules.admin.dto.AdminProductQueryDTO;
@@ -39,7 +40,7 @@ public class AdminProductServiceImpl extends ServiceImpl<ProductMapper, Product>
     private final BrandMapper brandMapper;
 
     @Override
-    public IPage<AdminProductVO> listProducts(AdminProductQueryDTO queryDTO) {
+    public Result<IPage<AdminProductVO>> listProducts(AdminProductQueryDTO queryDTO) {
         LambdaQueryWrapper<Product> wrapper = new LambdaQueryWrapper<>();
         if (StringUtils.hasText(queryDTO.getName())) {
             wrapper.like(Product::getName, queryDTO.getName());
@@ -71,11 +72,11 @@ public class AdminProductServiceImpl extends ServiceImpl<ProductMapper, Product>
 
         IPage<AdminProductVO> voPage = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
         voPage.setRecords(voList);
-        return voPage;
+        return Result.success(voPage);
     }
 
     @Override
-    public AdminProductDetailVO getProductDetail(Long id) {
+    public Result<AdminProductDetailVO> getProductDetail(Long id) {
         Product product = getById(id);
         if (product == null) {
             throw new BusinessException(404, "商品不存在");
@@ -83,51 +84,54 @@ public class AdminProductServiceImpl extends ServiceImpl<ProductMapper, Product>
         AdminProductDetailVO vo = assembler.toDetailVO(product);
         vo.setCategoryName(getCategoryName(product.getCategoryId()));
         vo.setBrandName(getBrandName(product.getBrandId()));
-        return vo;
+        return Result.success(vo);
     }
 
     @Override
-    public Long createProduct(AdminProductCreateDTO dto) {
+    public Result<Long> createProduct(AdminProductCreateDTO dto) {
         Product product = assembler.toEntity(dto);
         product.setStatus("ON_SALE");
         product.setSalesCount(0);
         save(product);
-        return product.getId();
+        return Result.success(product.getId());
     }
 
     @Override
-    public void updateProduct(Long id, AdminProductUpdateDTO dto) {
+    public Result<Void> updateProduct(Long id, AdminProductUpdateDTO dto) {
         Product product = getById(id);
         if (product == null) {
             throw new BusinessException(404, "商品不存在");
         }
         assembler.updateEntity(product, dto);
         updateById(product);
+        return Result.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteProduct(Long id) {
+    public Result<Void> deleteProduct(Long id) {
         if (!removeById(id)) {
             throw new BusinessException(404, "商品不存在");
         }
+        return Result.success();
     }
 
     @Override
-    public void updateStatus(Long id, String status) {
+    public Result<Void> updateStatus(Long id, String status) {
         Product product = getById(id);
         if (product == null) {
             throw new BusinessException(404, "商品不存在");
         }
         product.setStatus(status);
         updateById(product);
+        return Result.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BatchStatusResult batchUpdateStatus(BatchStatusDTO dto) {
+    public Result<BatchStatusResult> batchUpdateStatus(BatchStatusDTO dto) {
         if (dto.getProductIds().size() > 100) {
-            throw new BusinessException(400, "单次批量操作最多100条记录");
+            throw new BusinessException(400, "单次批量操作最多 100 条记录");
         }
         BatchStatusResult result = new BatchStatusResult();
         result.setSuccessCount(0);
@@ -143,7 +147,7 @@ public class AdminProductServiceImpl extends ServiceImpl<ProductMapper, Product>
                 result.getFailIds().add(id);
             }
         }
-        return result;
+        return Result.success(result);
     }
 
     private Map<Long, String> getCategoryNameMap() {

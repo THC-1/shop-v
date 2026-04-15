@@ -5,7 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.gobuy.common.exception.BusinessException;
-import com.example.gobuy.modules.admin.assembler.AdminOrderAssemblerImpl;
+import com.example.gobuy.common.result.Result;
+import com.example.gobuy.modules.admin.assembler.AdminOrderAssembler;
 import com.example.gobuy.modules.admin.dto.AdminOrderQueryDTO;
 import com.example.gobuy.modules.admin.dto.BatchShipDTO;
 import com.example.gobuy.modules.admin.dto.OrderShipDTO;
@@ -37,13 +38,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminOrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IAdminOrderService {
 
-    private final AdminOrderAssemblerImpl assembler;
+    private final AdminOrderAssembler assembler;
     private final OrderItemMapper orderItemMapper;
     private final UserMapper userMapper;
     private final AddressMapper addressMapper;
 
     @Override
-    public IPage<AdminOrderVO> listOrders(AdminOrderQueryDTO queryDTO) {
+    public Result<IPage<AdminOrderVO>> listOrders(AdminOrderQueryDTO queryDTO) {
         LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();
         if (StringUtils.hasText(queryDTO.getOrderNo())) {
             wrapper.like(Order::getOrderNo, queryDTO.getOrderNo());
@@ -77,11 +78,11 @@ public class AdminOrderServiceImpl extends ServiceImpl<OrderMapper, Order> imple
 
         IPage<AdminOrderVO> voPage = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
         voPage.setRecords(voList);
-        return voPage;
+        return Result.success(voPage);
     }
 
     @Override
-    public AdminOrderDetailVO getOrderDetail(Long id) {
+    public Result<AdminOrderDetailVO> getOrderDetail(Long id) {
         Order order = getById(id);
         if (order == null) {
             throw new BusinessException(404, "订单不存在");
@@ -97,12 +98,12 @@ public class AdminOrderServiceImpl extends ServiceImpl<OrderMapper, Order> imple
             detailVO.setUsername(userName);
             detailVO.setItems(assembler.toItemVOList(items));
         }
-        return detailVO;
+        return Result.success(detailVO);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void shipOrder(Long id, OrderShipDTO dto) {
+    public Result<Void> shipOrder(Long id, OrderShipDTO dto) {
         Order order = getById(id);
         if (order == null) {
             throw new BusinessException(404, "订单不存在");
@@ -115,13 +116,14 @@ public class AdminOrderServiceImpl extends ServiceImpl<OrderMapper, Order> imple
         order.setShippedAt(LocalDateTime.now());
         order.setStatus("SHIPPED");
         updateById(order);
+        return Result.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void batchShip(BatchShipDTO dto) {
+    public Result<Void> batchShip(BatchShipDTO dto) {
         if (dto.getOrderIds().size() > 100) {
-            throw new BusinessException(400, "单次批量发货最多100单");
+            throw new BusinessException(400, "单次批量发货最多 100 单");
         }
 
         LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<Order>()
@@ -145,6 +147,7 @@ public class AdminOrderServiceImpl extends ServiceImpl<OrderMapper, Order> imple
             order.setStatus("SHIPPED");
         }
         updateBatchById(orders);
+        return Result.success();
     }
 
     private Map<Long, String> getUserNameMap(List<Order> orders) {

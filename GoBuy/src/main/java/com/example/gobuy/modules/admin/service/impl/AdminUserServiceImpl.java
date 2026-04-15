@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.gobuy.common.exception.BusinessException;
+import com.example.gobuy.common.result.Result;
 import com.example.gobuy.modules.admin.assembler.AdminUserAssembler;
 import com.example.gobuy.modules.admin.dto.AdminUserQueryDTO;
 import com.example.gobuy.modules.admin.dto.UserRoleDTO;
@@ -37,7 +38,7 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User> implemen
     private final UserRoleMapper userRoleMapper;
 
     @Override
-    public IPage<AdminUserVO> listUsers(AdminUserQueryDTO queryDTO) {
+    public Result<IPage<AdminUserVO>> listUsers(AdminUserQueryDTO queryDTO) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         if (StringUtils.hasText(queryDTO.getUsername())) {
             wrapper.like(User::getUsername, queryDTO.getUsername());
@@ -63,35 +64,37 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User> implemen
 
         IPage<AdminUserVO> voPage = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
         voPage.setRecords(voList);
-        return voPage;
+        return Result.success(voPage);
     }
 
     @Override
-    public AdminUserDetailVO getUserDetail(Long id) {
+    public Result<AdminUserDetailVO> getUserDetail(Long id) {
         User user = getById(id);
         if (user == null) {
             throw new BusinessException(404, "用户不存在");
         }
         AdminUserDetailVO vo = assembler.toDetailVO(user);
-        vo.setOrderCount(getOrderCount(id));
-        vo.setTotalSpent(getTotalSpent(id));
-        return vo;
+        UserStats stats = getUserStatsMap(List.of(user)).getOrDefault(id, UserStats.EMPTY);
+        vo.setOrderCount(stats.orderCount);
+        vo.setTotalSpent(stats.totalSpent);
+        return Result.success(vo);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateUserStatus(Long id, UserStatusDTO dto) {
+    public Result<Void> updateUserStatus(Long id, UserStatusDTO dto) {
         User user = getById(id);
         if (user == null) {
             throw new BusinessException(404, "用户不存在");
         }
         user.setStatus(dto.getStatus());
         updateById(user);
+        return Result.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void assignUserRoles(Long id, UserRoleDTO dto) {
+    public Result<Void> assignUserRoles(Long id, UserRoleDTO dto) {
         User user = getById(id);
         if (user == null) {
             throw new BusinessException(404, "用户不存在");
@@ -108,6 +111,7 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User> implemen
                 userRoleMapper.insert(userRole);
             }
         }
+        return Result.success();
     }
 
     private Map<Long, UserStats> getUserStatsMap(List<User> users) {
@@ -142,18 +146,4 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User> implemen
         static final UserStats EMPTY = new UserStats();
     }
 
-    private int getOrderCount(Long userId) {
-        LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<Order>()
-                .eq(Order::getUserId, userId)
-                .eq(Order::getStatus, "COMPLETED");
-        return Math.toIntExact(orderMapper.selectCount(wrapper));
-    }
-
-    private BigDecimal getTotalSpent(Long userId) {
-        LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<Order>()
-                .eq(Order::getUserId, userId)
-                .eq(Order::getStatus, "COMPLETED");
-        List<Order> orders = orderMapper.selectList(wrapper);
-        return orders.stream().map(Order::getTotalAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
 }

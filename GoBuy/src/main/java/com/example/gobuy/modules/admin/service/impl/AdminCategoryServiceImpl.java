@@ -3,6 +3,7 @@ package com.example.gobuy.modules.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.gobuy.common.exception.BusinessException;
+import com.example.gobuy.common.result.Result;
 import com.example.gobuy.modules.admin.assembler.AdminCategoryAssembler;
 import com.example.gobuy.modules.admin.dto.CategoryCreateDTO;
 import com.example.gobuy.modules.admin.dto.CategoryUpdateDTO;
@@ -16,7 +17,6 @@ import com.example.gobuy.modules.product.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
     private final ProductMapper productMapper;
 
     @Override
-    public List<CategoryTreeVO> getCategoryTree() {
+    public Result<List<CategoryTreeVO>> getCategoryTree() {
         List<Category> allCategories = list();
         Map<Long, List<Category>> childrenMap = allCategories.stream()
                 .filter(c -> c.getParentId() != null)
@@ -53,11 +53,11 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
             }
         }
         rootList.sort((a, b) -> a.getSort().compareTo(b.getSort()));
-        return rootList;
+        return Result.success(rootList);
     }
 
     @Override
-    public CategoryDetailVO getCategoryDetail(Long id) {
+    public Result<CategoryDetailVO> getCategoryDetail(Long id) {
         Category category = getById(id);
         if (category == null) {
             throw new BusinessException(404, "分类不存在");
@@ -66,11 +66,11 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
         vo.setLevel(calculateLevel(category));
         vo.setChildrenCount(countChildren(id));
         vo.setProductCount(countProducts(id));
-        return vo;
+        return Result.success(vo);
     }
 
     @Override
-    public Long createCategory(CategoryCreateDTO dto) {
+    public Result<Long> createCategory(CategoryCreateDTO dto) {
         if (dto.getParentId() != null) {
             Category parent = getById(dto.getParentId());
             if (parent == null) {
@@ -78,17 +78,17 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
             }
             int level = calculateLevel(parent);
             if (level >= 3) {
-                throw new BusinessException(400, "分类最多支持3级嵌套");
+                throw new BusinessException(400, "分类最多支持 3 级嵌套");
             }
         }
         Category category = assembler.toEntity(dto);
         category.setStatus("ACTIVE");
         save(category);
-        return category.getId();
+        return Result.success(category.getId());
     }
 
     @Override
-    public void updateCategory(Long id, CategoryUpdateDTO dto) {
+    public Result<Void> updateCategory(Long id, CategoryUpdateDTO dto) {
         Category category = getById(id);
         if (category == null) {
             throw new BusinessException(404, "分类不存在");
@@ -103,16 +103,17 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
             }
             int level = calculateLevel(parent);
             if (level >= 3) {
-                throw new BusinessException(400, "分类最多支持3级嵌套");
+                throw new BusinessException(400, "分类最多支持 3 级嵌套");
             }
         }
         assembler.updateEntity(category, dto);
         updateById(category);
+        return Result.success();
     }
 
     @Override
     @Transactional
-    public void deleteCategory(Long id) {
+    public Result<Void> deleteCategory(Long id) {
         Category category = getById(id);
         if (category == null) {
             throw new BusinessException(404, "分类不存在");
@@ -124,6 +125,7 @@ public class AdminCategoryServiceImpl extends ServiceImpl<CategoryMapper, Catego
             throw new BusinessException(422, "该分类下存在商品，无法删除");
         }
         removeById(id);
+        return Result.success();
     }
 
     private int calculateLevel(Category category) {

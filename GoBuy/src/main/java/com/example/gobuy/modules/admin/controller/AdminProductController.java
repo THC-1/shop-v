@@ -32,14 +32,14 @@ public class AdminProductController {
     @RequirePermission("PRODUCT:VIEW")
     @Operation(summary = "商品列表")
     public Result<IPage<AdminProductVO>> listProducts(AdminProductQueryDTO queryDTO) {
-        return Result.success(adminProductService.listProducts(queryDTO));
+        return adminProductService.listProducts(queryDTO);
     }
 
     @GetMapping("/{id}")
     @RequirePermission("PRODUCT:VIEW")
     @Operation(summary = "商品详情")
     public Result<AdminProductDetailVO> getProductDetail(@PathVariable Long id) {
-        return Result.success(adminProductService.getProductDetail(id));
+        return adminProductService.getProductDetail(id);
     }
 
     @PostMapping
@@ -47,7 +47,7 @@ public class AdminProductController {
     @OperationLog(module = "商品", action = "创建商品", targetType = "Product")
     @Operation(summary = "创建商品")
     public Result<Long> createProduct(@Valid @RequestBody AdminProductCreateDTO dto) {
-        return Result.success(adminProductService.createProduct(dto));
+        return adminProductService.createProduct(dto);
     }
 
     @PutMapping("/{id}")
@@ -55,8 +55,7 @@ public class AdminProductController {
     @OperationLog(module = "商品", action = "更新商品", targetType = "Product")
     @Operation(summary = "更新商品")
     public Result<Void> updateProduct(@PathVariable Long id, @Valid @RequestBody AdminProductUpdateDTO dto) {
-        adminProductService.updateProduct(id, dto);
-        return Result.success();
+        return adminProductService.updateProduct(id, dto);
     }
 
     @DeleteMapping("/{id}")
@@ -64,8 +63,7 @@ public class AdminProductController {
     @OperationLog(module = "商品", action = "删除商品", targetType = "Product")
     @Operation(summary = "删除商品")
     public Result<Void> deleteProduct(@PathVariable Long id) {
-        adminProductService.deleteProduct(id);
-        return Result.success();
+        return adminProductService.deleteProduct(id);
     }
 
     @PatchMapping("/{id}/status")
@@ -74,8 +72,7 @@ public class AdminProductController {
     @Operation(summary = "更新商品状态")
     public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
         String status = body.get("status");
-        adminProductService.updateStatus(id, status);
-        return Result.success();
+        return adminProductService.updateStatus(id, status);
     }
 
     @PostMapping("/batch/status")
@@ -83,6 +80,6 @@ public class AdminProductController {
     @OperationLog(module = "商品", action = "批量更新商品状态", targetType = "Product")
     @Operation(summary = "批量更新商品状态")
     public Result<BatchStatusResult> batchUpdateStatus(@Valid @RequestBody BatchStatusDTO dto) {
-        return Result.success(adminProductService.batchUpdateStatus(dto));
+        return adminProductService.batchUpdateStatus(dto);
     }
 }

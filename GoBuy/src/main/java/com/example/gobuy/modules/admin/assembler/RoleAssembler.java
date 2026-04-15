@@ -7,7 +7,6 @@ import com.example.gobuy.modules.admin.vo.PermissionSimpleVO;
 import com.example.gobuy.modules.admin.vo.PermissionTreeVO;
 import com.example.gobuy.modules.admin.vo.RoleVO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
